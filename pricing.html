@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pricing — Balance Works LLP</title>
+<link rel="icon" type="image/png" href="assets/logo-mark.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; background: #000; }
+  body { margin: 0; background: #000; color: #f2f2f0; font-family: 'Archivo', Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  a { color: #f2f2f0; text-decoration: none; }
+  a:hover { color: oklch(0.9 0.14 175); }
+  ::selection { background: oklch(0.86 0.14 175); color: #000; }
+  input, textarea, select, button { font-family: inherit; }
+  input::placeholder, textarea::placeholder { color: #7d7d76; }
+  @keyframes bwLine { from { transform: translateY(105%); } to { transform: translateY(0); } }
+  @keyframes bwNoise { 0% { transform: translate(0,0); } 25% { transform: translate(-2%,1%); } 50% { transform: translate(1%,-2%); } 75% { transform: translate(-1%,-1%); } 100% { transform: translate(0,0); } }
+  @keyframes bwLedgerRow { 0% { opacity: 0; transform: translateY(10px); } 9% { opacity: 1; transform: translateY(0); } 86% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(-6px); } }
+  @keyframes bwTickPop { 0%, 22% { opacity: 0; transform: scale(0.4); } 32% { opacity: 1; transform: scale(1.25); } 40%, 100% { opacity: 1; transform: scale(1); } }
+  @keyframes bwScanBar { 0% { transform: translateY(-14px); opacity: 0; } 12% { opacity: 1; } 88% { opacity: 1; } 100% { transform: translateY(330px); opacity: 0; } }
+  @media (max-width: 1150px) {
+    .bw-connector { display: none !important; }
+    .bw-flow-row { flex-direction: column !important; align-items: stretch !important; }
+    .bw-flow-col { max-width: none !important; flex: 1 1 auto !important; }
+  }
+  @keyframes bwFlowDot { 0% { transform: translateX(0); opacity: 0; } 15% { opacity: 1; } 85% { opacity: 1; } 100% { transform: translateX(58px); opacity: 0; } }
+  @keyframes bwFieldFill { 0%, 12% { transform: scaleX(0); } 40%, 100% { transform: scaleX(1); } }
+  @keyframes bwHubSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  @keyframes bwHubGlow { 0%, 100% { opacity: 0.35; transform: scale(1); } 50% { opacity: 0.8; transform: scale(1.06); } }
+  @keyframes bwSparkDraw { from { stroke-dashoffset: 420; } to { stroke-dashoffset: 0; } }
+  @keyframes bwRailH { 0% { left: -70px; } 100% { left: 100%; } }
+  @keyframes bwScrollCue { 0% { transform: translateY(-100%); } 100% { transform: translateY(100%); } }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+  @media (hover: none) { #bw-cursor { display: none !important; } }
+</style>
+</helmet>
+
+
+
+<div style="position: relative; background: #000;">
+
+  <div id="bw-cursor" aria-hidden="true" style="position: fixed; top: 0; left: 0; width: 14px; height: 14px; border-radius: 50%; background: oklch(0.86 0.14 175); pointer-events: none; z-index: 999; mix-blend-mode: difference; transform: translate3d(-100px,-100px,0); transition: width .35s cubic-bezier(.2,.8,.2,1), height .35s cubic-bezier(.2,.8,.2,1), opacity .3s ease; will-change: transform;"></div>
+
+  <div id="bw-ring" aria-hidden="true" style="position: fixed; top: 0; left: 0; width: 40px; height: 40px; border-radius: 50%; border: 1px solid rgba(95,227,207,0.5); pointer-events: none; z-index: 998; display: grid; place-items: center; transform: translate3d(-200px,-200px,0); transition: width .45s cubic-bezier(.2,.8,.2,1), height .45s cubic-bezier(.2,.8,.2,1), background-color .45s ease, border-color .45s ease, opacity .3s ease; will-change: transform;"><span id="bw-ring-label" style="font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: #000; opacity: 0; transition: opacity .3s ease; white-space: nowrap;"></span></div>
+
+  <div aria-hidden="true" style="position: fixed; inset: -10%; z-index: 1; pointer-events: none; opacity: 0.045; background-image: repeating-linear-gradient(0deg, #fff 0 1px, transparent 1px 3px); animation: bwNoise 1.2s steps(2) infinite;"></div>
+
+  <header style="position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(0,0,0,0.62); backdrop-filter: blur(16px); border-bottom: 1px solid #131311;">
+    <div style="padding: 18px 22px; display: flex; flex-wrap: wrap; row-gap: 12px; column-gap: 20px; align-items: center; justify-content: space-between; font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; letter-spacing: 0.14em; text-transform: uppercase; color: #fff;">
+      <a href="index.html" data-cursor="" style="display: flex; align-items: center; gap: 11px; color: #fff; font-weight: 500;"><img src="assets/logo-mark.png" alt="" style="display: block; height: 24px; width: auto; flex: none;">Balance&nbsp;Works&nbsp;LLP</a>
+      <div style="display: flex; flex-wrap: wrap; gap: 14px 22px;">
+        <a href="index.html" data-cursor="" style="color: #fff;">Home</a>
+        <a href="services.html" data-cursor="" style="color: #fff;">Services</a>
+        <a href="about.html" data-cursor="" style="color: #fff;">About&nbsp;Us</a>
+        <a href="pricing.html" data-cursor="" style="color: oklch(0.86 0.14 175);">Pricing</a>
+        <a href="contact.html" data-cursor="" style="color: #fff;">Contact</a>
+      </div>
+    </div>
+  </header>
+
+  <section id="pricing" style="position: relative; z-index: 2; padding: 150px 34px 120px; border-top: 1px solid #1c1c1a;">
+    <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 20px;">
+      <h2 data-reveal="" style="margin: 0; font-size: clamp(30px, 4.6vw, 62px); font-weight: 700; letter-spacing: -0.04em; line-height: 1;">Our Packages</h2>
+      <span data-reveal="" style="font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; letter-spacing: 0.16em; text-transform: uppercase; color: #7d7d76;">SGD — indicative</span>
+    </div>
+    <div style="margin-top: 50px; display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 1px; background: #1c1c1a; border: 1px solid #1c1c1a;">
+      <sc-for list="{{ plans }}" as="pl" hint-placeholder-count="3">
+        <div data-reveal="" data-cursor="" style="background: #000; padding: 40px 32px 36px; display: flex; flex-direction: column; transition: background .4s ease;" style-hover="background:#0a0a09">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; letter-spacing: 0.16em; text-transform: uppercase; color: #8d8d84;">{{ pl.name }}</span>
+            <sc-if value="{{ pl.featured }}" hint-placeholder-val="{{ false }}">
+              <span style="padding: 3px 9px; border-radius: 999px; background: oklch(0.86 0.14 175); color: #000; font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; letter-spacing: 0.12em;">POPULAR</span>
+            </sc-if>
+          </div>
+          <div style="margin-top: 26px; display: flex; align-items: baseline; gap: 9px;">
+            <span style="font-size: clamp(38px, 4.6vw, 58px); font-weight: 700; letter-spacing: -0.045em; line-height: 1;">{{ pl.price }}</span>
+            <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #6d6d66;">{{ pl.unit }}</span>
+          </div>
+          <div style="margin-top: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; letter-spacing: 0.06em; line-height: 1.5; color: #6d6d66;">{{ pl.bill }}</div>
+          <p style="margin: 20px 0 30px; font-size: 14.5px; line-height: 1.6; color: #8d8d84;">{{ pl.for }}</p>
+          <div style="display: grid; gap: 12px; margin-bottom: 34px;">
+            <sc-for list="{{ pl.items }}" as="it" hint-placeholder-count="5">
+              <div style="display: flex; gap: 12px; align-items: flex-start; font-size: 14.5px; line-height: 1.5; color: #b4b4ab; border-top: 1px solid #131311; padding-top: 12px;">
+                <span style="flex: none; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: oklch(0.86 0.14 175);">+</span>
+                <span>{{ it }}</span>
+              </div>
+            </sc-for>
+          </div>
+          <div style="flex: 1;"></div>
+          <a href="contact.html" data-cursor="" style="display: inline-flex; justify-content: center; padding: 14px 22px; border: 1px solid #2a2a27; border-radius: 999px; font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; letter-spacing: 0.12em; text-transform: uppercase; transition: background .35s ease, color .35s ease, border-color .35s ease;" style-hover="background:oklch(0.86 0.14 175);color:#000;border-color:oklch(0.86 0.14 175)">{{ pl.cta }}</a>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section style="position: relative; z-index: 2; padding: 0 34px 130px;">
+    <div data-reveal="" style="display: inline-flex; align-items: center; gap: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; letter-spacing: 0.16em; text-transform: uppercase; color: #7d7d76;">
+      <span aria-hidden="true" style="width: 7px; height: 7px; border-radius: 50%; background: oklch(0.86 0.14 175); flex: none;"></span>Project basis
+    </div>
+    <h2 data-reveal="" style="margin: 22px 0 0; font-size: clamp(26px, 3.4vw, 44px); font-weight: 700; letter-spacing: -0.035em; line-height: 1.05;">Other services</h2>
+    <p data-reveal="" style="margin: 18px 0 44px; max-width: 56ch; font-size: 15.5px; line-height: 1.65; color: #9a9a91; text-wrap: pretty;">Scoped and quoted per project, standalone or alongside any package.</p>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1px; background: #1c1c1a; border: 1px solid #1c1c1a;">
+      <sc-for list="{{ projectServices }}" as="ps" hint-placeholder-count="4">
+        <div data-reveal="" data-cursor="" style="background: #000; padding: 34px 28px; display: flex; align-items: flex-start; gap: 14px; transition: background .4s ease;" style-hover="background:#0a0a09">
+          <span aria-hidden="true" style="flex: none; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: oklch(0.86 0.14 175);">{{ ps.no }}</span>
+          <span style="font-size: 17px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.3;">{{ ps.name }}</span>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <footer style="position: relative; z-index: 2; border-top: 1px solid #1c1c1a;">
+    <div style="padding: 70px 34px 60px; display: flex; justify-content: center;">
+      <img src="assets/logo-full.png" alt="Balance Works LLP" data-reveal="" style="display: block; width: 210px; max-width: 62vw; height: auto;">
+    </div>
+    <div style="border-top: 1px solid #1c1c1a; padding: 30px 34px; display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #7d7d76;">
+      <span>© {{ year }} Balance Works LLP · Singapore</span>
+      <span>Automating the ledger. Balancing your life.</span>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script="" data-props="{&quot;formEndpointKey&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Contact form&quot;,&quot;label&quot;:&quot;Web3Forms access key (blank = mailto)&quot;}}">
+class Component extends DCLogic {
+  state = { status: "", error: false, sending: false, active: 0, posted: 128, unmatched: 3 };
+
+  componentDidMount() {
+    this._ticker = setInterval(() => this.setState((s) => ({
+      posted: s.posted + 1 + Math.floor(Math.random() * 3),
+      unmatched: Math.max(0, (s.unmatched + (Math.random() > 0.55 ? 1 : -1)) % 6)
+    })), 2600);
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const nodes = Array.from(document.querySelectorAll('[data-reveal]'));
+    if (!reduce) {
+      nodes.forEach((n, i) => {
+        n.style.opacity = '0';
+        n.style.transform = 'translateY(26px)';
+        const d = (i % 5) * 70;
+        n.style.transition = 'opacity .9s cubic-bezier(.16,1,.3,1) ' + d + 'ms, transform .9s cubic-bezier(.16,1,.3,1) ' + d + 'ms';
+      });
+      let fired = false;
+      const show = (n) => { n.style.opacity = '1'; n.style.transform = 'none'; n.dataset.revealed = '1'; };
+      const sweep = () => {
+        const vh = window.innerHeight || 800;
+        let pending = 0;
+        nodes.forEach((n) => {
+          if (n.dataset.revealed) return;
+          const b = n.getBoundingClientRect();
+          if (b.top < vh * 0.94 && b.bottom > 0) show(n); else pending++;
+        });
+        return pending;
+      };
+      sweep();
+      const io = new IntersectionObserver((es) => {
+        fired = true;
+        es.forEach((e) => {
+          if (e.isIntersecting) { show(e.target); io.unobserve(e.target); }
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -6% 0px' });
+      nodes.forEach((n) => io.observe(n));
+      this._io = io;
+      const onScroll = () => { if (sweep() === 0) { window.removeEventListener('scroll', onScroll); window.removeEventListener('resize', onScroll); } };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll);
+      this._revealCleanup = () => { window.removeEventListener('scroll', onScroll); window.removeEventListener('resize', onScroll); };
+      setTimeout(() => { if (!fired) nodes.forEach(show); }, 1600);
+    }
+
+    const cur = document.getElementById('bw-cursor');
+    const ring = document.getElementById('bw-ring');
+    const label = document.getElementById('bw-ring-label');
+    if (cur && ring && !reduce && window.matchMedia('(hover: hover)').matches) {
+      const GOLD = '95,227,207';
+      let tx = innerWidth / 2, ty = innerHeight / 2;
+      let dx = tx, dy = ty, rx = tx, ry = ty, vx = 0, vy = 0, raf;
+      let magnets = [], spotRow = null;
+
+      const refresh = () => { magnets = Array.from(document.querySelectorAll('[data-magnetic]')); };
+      refresh();
+
+      const move = (e) => {
+        vx = e.clientX - tx; vy = e.clientY - ty;
+        tx = e.clientX; ty = e.clientY;
+        if (spotRow) {
+          const b = spotRow.getBoundingClientRect();
+          spotRow.style.backgroundImage = 'radial-gradient(360px circle at ' + (e.clientX - b.left) + 'px ' + (e.clientY - b.top) + 'px, rgba(' + GOLD + ',0.09), transparent 72%)';
+        }
+        const g1 = document.getElementById('bw-glow1');
+        const g2 = document.getElementById('bw-glow2');
+        const px = (e.clientX / innerWidth - 0.5), py = (e.clientY / innerHeight - 0.5);
+        if (g1) g1.style.transform = 'translate3d(' + (px * 60) + 'px,' + (py * 40) + 'px,0)';
+        if (g2) g2.style.transform = 'translate3d(' + (px * -50) + 'px,' + (py * -34) + 'px,0)';
+      };
+
+      const tick = () => {
+        dx += (tx - dx) * 0.28; dy += (ty - dy) * 0.28;
+        rx += (tx - rx) * 0.11; ry += (ty - ry) * 0.11;
+        const speed = Math.min(Math.hypot(tx - rx, ty - ry), 90);
+        const stretch = 1 + speed / 260;
+        const ang = (Math.atan2(ty - ry, tx - rx) * 180) / Math.PI;
+        cur.style.transform = 'translate3d(' + (dx - cur.offsetWidth / 2) + 'px,' + (dy - cur.offsetHeight / 2) + 'px,0)';
+        ring.style.transform = 'translate3d(' + (rx - ring.offsetWidth / 2) + 'px,' + (ry - ring.offsetHeight / 2) + 'px,0) rotate(' + ang + 'deg) scale(' + stretch + ',' + (1 / stretch) + ')';
+        for (const m of magnets) {
+          const b = m.getBoundingClientRect();
+          const mx = b.left + b.width / 2, my = b.top + b.height / 2;
+          const d = Math.hypot(tx - mx, ty - my);
+          const pull = d < 170 ? (1 - d / 170) : 0;
+          m.style.transform = 'translate3d(' + ((tx - mx) * 0.14 * pull) + 'px,' + ((ty - my) * 0.14 * pull) + 'px,0)';
+        }
+        raf = requestAnimationFrame(tick);
+      };
+
+      const over = (e) => {
+        const t = e.target;
+        const hot = t.closest && t.closest('[data-cursor],a,button,input,textarea,select');
+        const txt = hot && hot.closest('[data-cursor-label]');
+        const big = !!hot;
+        cur.style.width = big ? '6px' : '14px';
+        cur.style.height = big ? '6px' : '14px';
+        ring.style.width = txt ? '76px' : big ? '58px' : '40px';
+        ring.style.height = txt ? '76px' : big ? '58px' : '40px';
+        ring.style.backgroundColor = txt ? 'rgba(' + GOLD + ',0.92)' : big ? 'rgba(' + GOLD + ',0.1)' : 'transparent';
+        ring.style.borderColor = big ? 'rgba(' + GOLD + ',0.9)' : 'rgba(' + GOLD + ',0.5)';
+        if (label) {
+          label.textContent = txt ? txt.getAttribute('data-cursor-label') : '';
+          label.style.opacity = txt ? '1' : '0';
+        }
+        const row = t.closest && t.closest('[data-spot]');
+        if (row !== spotRow) {
+          if (spotRow) spotRow.style.backgroundImage = 'none';
+          spotRow = row;
+        }
+      };
+
+      const leave = () => { cur.style.opacity = '0'; ring.style.opacity = '0'; };
+      const enter = () => { cur.style.opacity = '1'; ring.style.opacity = '1'; };
+
+      window.addEventListener('mousemove', move, { passive: true });
+      window.addEventListener('mouseover', over, { passive: true });
+      window.addEventListener('resize', refresh);
+      document.addEventListener('mouseleave', leave);
+      document.addEventListener('mouseenter', enter);
+      raf = requestAnimationFrame(tick);
+      this._cleanupCursor = () => {
+        window.removeEventListener('mousemove', move);
+        window.removeEventListener('mouseover', over);
+        window.removeEventListener('resize', refresh);
+        document.removeEventListener('mouseleave', leave);
+        document.removeEventListener('mouseenter', enter);
+        cancelAnimationFrame(raf);
+      };
+    }
+  }
+
+  componentWillUnmount() {
+    clearInterval(this._ticker);
+    if (this._io) this._io.disconnect();
+    if (this._revealCleanup) this._revealCleanup();
+    if (this._cleanupCursor) this._cleanupCursor();
+  }
+
+  onSubmit = (e) => {
+    e.preventDefault();
+    const f = e.target;
+    const get = (n) => (f.elements[n] ? f.elements[n].value : "");
+    const key = this.props.formEndpointKey || "";
+    const to = "Consultants@balanceworkssg.com";
+    const subject = "Website enquiry — " + get("service");
+    const body = "Name: " + get("name") + "\n" + "Email: " + get("email") + "\n" + "Company: " + get("company") + "\n" + "Phone: " + get("phone") + "\n" + "Service: " + get("service") + "\n\n" + get("message");
+    if (!key) {
+      window.location.href = "mailto:" + to + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+      this.setState({ status: "Opening your email app — if nothing happens, write to " + to + " directly.", error: false });
+      return;
+    }
+    this.setState({ sending: true, status: "Sending…", error: false });
+    fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({ access_key: key, subject, from_name: "Balance Works website", name: get("name"), email: get("email"), company: get("company"), phone: get("phone"), service: get("service"), message: get("message") })
+    })
+      .then((r) => r.json())
+      .then((d) => {
+        if (d && d.success) { f.reset(); this.setState({ sending: false, status: "Thanks — we'll reply within one business day.", error: false }); }
+        else { this.setState({ sending: false, status: "Something went wrong. Please email " + to + ".", error: true }); }
+      })
+      .catch(() => this.setState({ sending: false, status: "Network error. Please email " + to + ".", error: true }));
+  };
+
+  renderVals() {
+    const s = this.state;
+    const raw = [
+      { title: "Accounting Automation", body: "Bank feeds, receipt capture, reconciliation rules and approval flows wired into Xero or QuickBooks so the ledger keeps itself current.", tags: ["Xero", "QuickBooks", "Bank feeds"], flow: [{ t: "Bank & card feeds", d: "imported and matched daily" }, { t: "Receipts captured", d: "OCR read, attached to entries" }, { t: "Rules & approvals", d: "coded automatically, exceptions flagged" }, { t: "Ledger stays current", d: "no month-end catch-up" }] },
+      { title: "Bookkeeping", body: "Monthly bookkeeping, reconciliations, AP/AR and management accounts — delivered on a fixed calendar, not when we get to it.", tags: ["Monthly close", "AP / AR", "Mgmt accounts"], flow: [{ t: "Documents collected", d: "one shared intake, chased for you" }, { t: "Reconciled & posted", d: "bank, AP, AR, accruals" }, { t: "Management accounts", d: "P&L, balance sheet, cash" }, { t: "Delivered on a date", d: "same day every month" }] },
+      { title: "Company Incorporation", body: "Pte Ltd registration with ACRA, constitution, share structure, nominee director and corporate bank account introductions.", tags: ["ACRA", "Pte Ltd", "Bank account"], flow: [{ t: "Name & structure", d: "shares, directors, capital" }, { t: "ACRA filing", d: "submitted, usually within 24 hrs" }, { t: "Constitution & registers", d: "documents issued and stored" }, { t: "Bank account intro", d: "corporate account opened" }] },
+      { title: "Corporate Secretarial", body: "Named company secretary, registers, AGM and annual return filings, resolutions and every statutory deadline tracked for you.", tags: ["Company sec", "Annual return", "Registers"], flow: [{ t: "Deadline calendar", d: "every statutory date tracked" }, { t: "Resolutions drafted", d: "circulated for signature" }, { t: "AGM & annual return", d: "prepared and filed" }, { t: "Registers maintained", d: "always inspection-ready" }] },
+      { title: "Process Automation", body: "The work between the systems: quote-to-invoice, payroll handoffs, claims, onboarding. Mapped, rebuilt and monitored.", tags: ["Workflows", "Integrations", "SOPs"], flow: [{ t: "Map the process", d: "who touches what, and when" }, { t: "Rebuild the handoffs", d: "forms, approvals, notifications" }, { t: "Connect the systems", d: "ledger, CRM, payroll, storage" }, { t: "Monitor & alert", d: "failures surface, not silently pile up" }] },
+      { title: "Dashboarding & BI", body: "One live view of cash, runway, margin and receivables — pulled straight from your ledger instead of a monthly spreadsheet.", tags: ["Cash & runway", "Live data", "Board packs"], flow: [{ t: "Ledger connected", d: "live feed, not a monthly export" }, { t: "Metrics modelled", d: "cash, runway, margin, ageing" }, { t: "Dashboard published", d: "one link, always current" }, { t: "Board pack export", d: "same numbers, print-ready" }] },
+      { title: "AI Agents & Integrations", body: "Document extraction, classification and drafting agents that sit inside your finance workflow, with a human approving the output.", tags: ["Doc extraction", "Classification", "Human-in-loop"], flow: [{ t: "Documents ingested", d: "invoices, statements, contracts" }, { t: "Extracted & classified", d: "fields read, coded, matched" }, { t: "Human approves", d: "nothing posts unreviewed" }, { t: "Written back", d: "straight into the ledger" }] },
+    ];
+    const services = raw.map((r, i) => {
+      const open = s.active === i;
+      return Object.assign({}, r, {
+        no: "0" + (i + 1),
+        mark: open ? "—" : "+",
+        titleColor: open ? "oklch(0.86 0.14 175)" : "#f2f2f0",
+        panelStyle: "overflow:hidden;transition:max-height .55s cubic-bezier(.16,1,.3,1),opacity .45s ease;max-height:" + (open ? "760px" : "0px") + ";opacity:" + (open ? "1" : "0"),
+        enter: () => this.setState({ active: i })
+      });
+    });
+    const rows = [
+      { date: "02 AUG", desc: "Stripe payout · SGD settlement", amt: "12,480.00" },
+      { date: "02 AUG", desc: "AWS Singapore · invoice 8841", amt: "1,905.44" },
+      { date: "01 AUG", desc: "Client retainer · Lim & Co", amt: "3,200.00" },
+      { date: "01 AUG", desc: "CPF contribution · July", amt: "4,617.90" },
+      { date: "31 JUL", desc: "Office rent · Tanjong Pagar", amt: "5,800.00" },
+      { date: "31 JUL", desc: "GST input claim · Q2", amt: "2,143.05" },
+      { date: "30 JUL", desc: "Grab · client meetings", amt: "86.20" }
+    ].map((r, i) => Object.assign({}, r, {
+      style: "display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid #101011;animation:bwLedgerRow 5.4s ease-in-out " + (i * 0.34).toFixed(2) + "s infinite both",
+      tick: "flex:none;width:16px;text-align:center;font-size:12px;color:oklch(0.86 0.14 175);animation:bwTickPop 5.4s ease-in-out " + (i * 0.34).toFixed(2) + "s infinite both"
+    }));
+
+    return {
+      rows,
+      posted: s.posted,
+      unmatched: s.unmatched,
+      year: new Date().getFullYear(),
+      onSubmit: this.onSubmit,
+      submitLabel: s.sending ? "Sending…" : "Send enquiry",
+      statusText: s.status || "We reply within one business day. Your details stay with us.",
+      statusColor: s.status ? (s.error ? "oklch(0.72 0.16 25)" : "oklch(0.86 0.14 175)") : "#7d7d76",
+      services,
+      stats: [
+        { k: "80%", v: "of manual data entry removed in a typical engagement" },
+        { k: "3 days", v: "typical month-end close once the ledger is automated" },
+        { k: "24 hrs", v: "to incorporate a Pte Ltd with ACRA, documents ready" },
+        { k: "1 team", v: "accounting, secretarial and engineering under one roof" }
+      ],
+      projectServices: [
+        { no: "01", name: "Accounting Automation" },
+        { no: "02", name: "Process Automation" },
+        { no: "03", name: "Dashboarding" },
+        { no: "04", name: "Yearly XBRL filing" }
+      ],
+      plans: [
+        { name: "Balance Baseline", price: "S$150", unit: "/ month", bill: "Billed annually (or S$175/mo monthly)", featured: false, for: "Startups, freelancers & lean businesses", cta: "Connect with us", items: ["Automated Bookkeeping", "Annual Financial Statements", "Human CA Review"] },
+        { name: "Growth Catalyst", price: "S$350", unit: "/ month", bill: "Billed annually (or S$395/mo monthly)", featured: true, for: "Growing SMEs & GST-registered companies", cta: "Connect with us", items: ["All Baseline features, plus:", "Quarterly GST Reporting", "Monthly Books Close", "Interactive Dashboards (One off charges applicable)"] },
+        { name: "Virtual CFO", price: "S$800", unit: "/ month", bill: "Custom scope (Monthly retainer)", featured: false, for: "Scaling companies needing high-level strategy", cta: "Connect with us", items: ["All Growth Catalyst features, plus:", "Custom Financial Modeling", "Complex Reconciliations", "Quarterly Strategic Advisory", "Priority Partner Support"] }
+      ],
+      quotes: [
+        { no: "01", text: "Placeholder testimonial — replace with a real client quote about the month-end close going from two weeks to a few days.", who: "Client name, Role — Company" },
+        { no: "02", text: "Placeholder testimonial — replace with a real quote about incorporation and getting compliant without chasing paperwork.", who: "Client name, Role — Company" },
+        { no: "03", text: "Placeholder testimonial — replace with a real quote about seeing cash and runway live instead of monthly.", who: "Client name, Role — Company" }
+      ]
+    };
+  }
+}
+</script>
+
+
+</body></html>

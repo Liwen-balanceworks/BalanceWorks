@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Balance Works LLP — Automating the ledger. Balancing your life.</title>
+<link rel="icon" type="image/png" href="assets/logo-mark.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; background: #000; }
+  body { margin: 0; background: #000; color: #f2f2f0; font-family: 'Archivo', Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  a { color: #f2f2f0; text-decoration: none; }
+  a:hover { color: oklch(0.9 0.14 175); }
+  ::selection { background: oklch(0.86 0.14 175); color: #000; }
+  input, textarea, select, button { font-family: inherit; }
+  input::placeholder, textarea::placeholder { color: #7d7d76; }
+  @keyframes bwLine { from { transform: translateY(105%); } to { transform: translateY(0); } }
+  @keyframes bwNoise { 0% { transform: translate(0,0); } 25% { transform: translate(-2%,1%); } 50% { transform: translate(1%,-2%); } 75% { transform: translate(-1%,-1%); } 100% { transform: translate(0,0); } }
+  @keyframes bwLedgerRow { 0% { opacity: 0; transform: translateY(10px); } 9% { opacity: 1; transform: translateY(0); } 86% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(-6px); } }
+  @keyframes bwTickPop { 0%, 22% { opacity: 0; transform: scale(0.4); } 32% { opacity: 1; transform: scale(1.25); } 40%, 100% { opacity: 1; transform: scale(1); } }
+  @keyframes bwScanBar { 0% { transform: translateY(-14px); opacity: 0; } 12% { opacity: 1; } 88% { opacity: 1; } 100% { transform: translateY(330px); opacity: 0; } }
+  @media (max-width: 1150px) {
+    .bw-connector { display: none !important; }
+    .bw-flow-row { flex-direction: column !important; align-items: stretch !important; }
+    .bw-flow-col { max-width: none !important; flex: 1 1 auto !important; }
+  }
+  @keyframes bwFlowDot { 0% { transform: translateX(0); opacity: 0; } 15% { opacity: 1; } 85% { opacity: 1; } 100% { transform: translateX(58px); opacity: 0; } }
+  @keyframes bwFieldFill { 0%, 12% { transform: scaleX(0); } 40%, 100% { transform: scaleX(1); } }
+  @keyframes bwHubSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  @keyframes bwHubGlow { 0%, 100% { opacity: 0.35; transform: scale(1); } 50% { opacity: 0.8; transform: scale(1.06); } }
+  @keyframes bwSparkDraw { from { stroke-dashoffset: 420; } to { stroke-dashoffset: 0; } }
+  @keyframes bwRailH { 0% { left: -70px; } 100% { left: 100%; } }
+  @keyframes bwScrollCue { 0% { transform: translateY(-100%); } 100% { transform: translateY(100%); } }
+  [data-sheet-inner] { scrollbar-width: none; -ms-overflow-style: none; }
+  [data-sheet-inner]::-webkit-scrollbar { display: none; }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+  @media (hover: none) { #bw-cursor { display: none !important; } }
+</style>
+</helmet>
+
+
+
+<div style="position: relative; background: #000;">
+
+  <div id="bw-cursor" aria-hidden="true" style="position: fixed; top: 0; left: 0; width: 14px; height: 14px; border-radius: 50%; background: oklch(0.86 0.14 175); pointer-events: none; z-index: 999; mix-blend-mode: difference; transform: translate3d(-100px,-100px,0); transition: width .35s cubic-bezier(.2,.8,.2,1), height .35s cubic-bezier(.2,.8,.2,1), opacity .3s ease; will-change: transform;"></div>
+
+  <div id="bw-ring" aria-hidden="true" style="position: fixed; top: 0; left: 0; width: 40px; height: 40px; border-radius: 50%; border: 1px solid rgba(95,227,207,0.5); pointer-events: none; z-index: 998; display: grid; place-items: center; transform: translate3d(-200px,-200px,0); transition: width .45s cubic-bezier(.2,.8,.2,1), height .45s cubic-bezier(.2,.8,.2,1), background-color .45s ease, border-color .45s ease, opacity .3s ease; will-change: transform;"><span id="bw-ring-label" style="font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: #000; opacity: 0; transition: opacity .3s ease; white-space: nowrap;"></span></div>
+
+  <div aria-hidden="true" style="position: fixed; inset: -10%; z-index: 1; pointer-events: none; opacity: 0.045; background-image: repeating-linear-gradient(0deg, #fff 0 1px, transparent 1px 3px); animation: bwNoise 1.2s steps(2) infinite;"></div>
+
+<div data-book="" style="position: fixed; inset: 0; overflow: hidden; background: #000;">
+  <div data-sheet="0" style="position: absolute; inset: 0; z-index: 60; background: #000; display: flex; flex-direction: column; overflow: hidden; transform-origin: bottom center; backface-visibility: hidden; transition: transform .95s cubic-bezier(.72,.02,.28,1), opacity .95s cubic-bezier(.72,.02,.28,1), box-shadow .95s ease; will-change: transform;">
+    <header style="position: relative; z-index: 10; flex: none; background: rgba(0,0,0,0.62); backdrop-filter: blur(16px); border-bottom: 1px solid #131311;">
+    <div style="padding: 18px 22px; display: flex; flex-wrap: wrap; row-gap: 12px; column-gap: 20px; align-items: center; justify-content: space-between; font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; letter-spacing: 0.14em; text-transform: uppercase; color: #fff;">
+    <a href="index.html" data-cursor="" style="display: flex; align-items: center; gap: 11px; color: #fff; font-weight: 500;"><img src="assets/logo-mark.png" alt="" style="display: block; height: 24px; width: auto; flex: none;">Balance&nbsp;Works&nbsp;LLP</a>
+    <div style="display: flex; flex-wrap: wrap; gap: 14px 22px;">
+    <a href="index.html" data-cursor="" style="color: oklch(0.86 0.14 175);">Home</a>
+    <a href="services.html" data-cursor="" style="color: #fff;">Services</a>
+    <a href="about.html" data-cursor="" style="color: #fff;">About&nbsp;Us</a>
+    <a href="pricing.html" data-cursor="" style="color: #fff;">Pricing</a>
+    <a href="contact.html" data-cursor="" style="color: #fff;">Contact</a>
+    </div>
+    </div>
+    </header>
+    <div data-sheet-inner="" style="flex: 1; min-height: 0; display: flex; flex-direction: column; justify-content: center; padding: 22px 0 74px; overflow: hidden;">
+      <div data-sheet-fit="" style="transform-origin: top center; width: 100%; display: flow-root;">
+  <section id="top" style="position: relative; z-index: 2; padding: 0 34px;">
+    <div id="bw-glow1" aria-hidden="true" style="position: absolute; inset: -12%; background: radial-gradient(ellipse 70% 55% at 20% 110%, rgba(43,131,196,0.30), transparent 70%); pointer-events: none; will-change: transform;"></div>
+    <div style="position: relative;">
+      <div style="display: flex; flex-wrap: wrap; gap: 56px; align-items: flex-end;">
+      <div style="flex: 1 1 520px; min-width: 290px;">
+      <div style="overflow: hidden;"><div style="animation: bwLine 1s cubic-bezier(.16,1,.3,1) .1s both; font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; letter-spacing: 0.16em; text-transform: uppercase; color: #7d7d76; margin-bottom: 30px;">Singapore — Accounting &amp; Automation Practice</div></div>
+      <h1 style="margin: 0; font-weight: 700; font-size: clamp(44px, 6.4vw, 112px); line-height: 0.86; letter-spacing: -0.045em;">
+        <span style="display: block; overflow: hidden;"><span style="display: block; animation: bwLine 1.1s cubic-bezier(.16,1,.3,1) .18s both;">Automating</span></span>
+        <span style="display: block; overflow: hidden;"><span style="display: block; animation: bwLine 1.1s cubic-bezier(.16,1,.3,1) .28s both;">the ledger.</span></span>
+        <span style="display: block; overflow: hidden;"><span style="display: block; color: oklch(0.86 0.14 175); animation: bwLine 1.1s cubic-bezier(.16,1,.3,1) .38s both;">Balancing your life.</span></span>
+      </h1>
+      </div>
+      <div style="flex: 1 1 400px; min-width: 300px; position: relative; border: 1px solid #1c1c1a; background: linear-gradient(180deg, #0b0c0d, #000); padding: 18px 20px 20px; overflow: hidden;">
+        <div aria-hidden="true" style="position: absolute; left: 0; right: 0; top: 0; height: 2px; background: linear-gradient(90deg, transparent, oklch(0.86 0.14 175), transparent); animation: bwScanBar 5.4s linear infinite;"></div>
+        <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 14px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #7d7d76; border-bottom: 1px solid #1c1c1a; padding-bottom: 12px;">
+          <span>General ledger — live</span>
+          <span style="color: oklch(0.86 0.14 175); white-space: nowrap;">{{ posted }} posted today</span>
+        </div>
+        <sc-for list="{{ rows }}" as="r" hint-placeholder-count="7">
+          <div style="{{ r.style }}">
+            <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #7d7d76; width: 52px; flex: none;">{{ r.date }}</span>
+            <span style="font-size: 13px; color: #d8d8d2; flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ r.desc }}</span>
+            <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #f2f2f0; width: 84px; flex: none; text-align: right;">{{ r.amt }}</span>
+            <span style="{{ r.tick }}">✓</span>
+          </div>
+        </sc-for>
+        <div style="margin-top: 16px; padding-top: 14px; border-top: 1px solid #1c1c1a; display: flex; justify-content: space-between; align-items: baseline;">
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #7d7d76;">Unreconciled</span>
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 22px; color: oklch(0.86 0.14 175);">{{ unmatched }}</span>
+        </div>
+      </div>
+      </div>
+      <div style="margin-top: 52px; display: flex; flex-wrap: wrap; gap: 40px; align-items: flex-end; justify-content: space-between; border-top: 1px solid #1c1c1a; padding-top: 26px;">
+        <p style="margin: 0; max-width: 46ch; font-size: 16px; line-height: 1.6; color: #98988f; text-wrap: pretty;">We close your books, keep you compliant with Accounting Standards, and build the systems that stop the same work being done twice.</p>
+        <a href="contact.html" data-cursor="" data-magnetic="" data-cursor-label="connect" style="display: inline-flex; align-items: center; gap: 14px; padding: 16px 26px; border: 1px solid #2a2a27; border-radius: 999px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; transition: background .35s ease, color .35s ease, border-color .35s ease;" style-hover="background:oklch(0.86 0.14 175);color:#000;border-color:oklch(0.86 0.14 175)">Connect With Us <span style="font-size: 14px;">↗</span></a>
+      </div>
+    </div>
+  </section>
+      </div>
+    </div>
+  </div>
+  <div data-sheet="1" style="position: absolute; inset: 0; z-index: 59; background: #000; display: flex; flex-direction: column; overflow: hidden; transform-origin: bottom center; backface-visibility: hidden; transition: transform .95s cubic-bezier(.72,.02,.28,1), opacity .95s cubic-bezier(.72,.02,.28,1), box-shadow .95s ease; will-change: transform;">
+    <header style="position: relative; z-index: 10; flex: none; background: rgba(0,0,0,0.62); backdrop-filter: blur(16px); border-bottom: 1px solid #131311;">
+    <div style="padding: 18px 22px; display: flex; flex-wrap: wrap; row-gap: 12px; column-gap: 20px; align-items: center; justify-content: space-between; font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; letter-spacing: 0.14em; text-transform: uppercase; color: #fff;">
+    <a href="index.html" data-cursor="" style="display: flex; align-items: center; gap: 11px; color: #fff; font-weight: 500;"><img src="assets/logo-mark.png" alt="" style="display: block; height: 24px; width: auto; flex: none;">Balance&nbsp;Works&nbsp;LLP</a>
+    <div style="display: flex; flex-wrap: wrap; gap: 14px 22px;">
+    <a href="index.html" data-cursor="" style="color: oklch(0.86 0.14 175);">Home</a>
+    <a href="services.html" data-cursor="" style="color: #fff;">Services</a>
+    <a href="about.html" data-cursor="" style="color: #fff;">About&nbsp;Us</a>
+    <a href="pricing.html" data-cursor="" style="color: #fff;">Pricing</a>
+    <a href="contact.html" data-cursor="" style="color: #fff;">Contact</a>
+    </div>
+    </div>
+    </header>
+    <div data-sheet-inner="" style="flex: 1; min-height: 0; display: flex; flex-direction: column; justify-content: center; padding: 22px 0 74px; overflow: hidden;">
+      <div data-sheet-fit="" style="transform-origin: top center; width: 100%; display: flow-root;">
+  <section id="how" style="position: relative; z-index: 2; padding: 0 34px;">
+    <div data-reveal="" style="display: inline-flex; align-items: center; gap: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; letter-spacing: 0.16em; text-transform: uppercase; color: #7d7d76;">
+      <span style="width: 6px; height: 6px; border-radius: 50%; background: oklch(0.86 0.14 175);"></span>How it works
+    </div>
+    <h2 data-reveal="" style="margin: 26px 0 0; max-width: 20ch; font-size: clamp(30px, 5vw, 66px); font-weight: 700; letter-spacing: -0.042em; line-height: 1; text-wrap: balance;">What automation looks like.</h2>
+    <p data-reveal="" style="margin: 24px 0 0; max-width: 62ch; font-size: 16.5px; line-height: 1.65; color: #9a9a91; text-wrap: pretty;">Not a black box — a specific set of repetitive tasks handed to automation, with a qualified accountant reviewing the result before anything is final.</p>
+
+    <div data-reveal="" style="margin-top: 56px; border: 1px solid #1c1c1a; padding: 48px 40px 42px; background: linear-gradient(180deg, #0a0b0c, #000);">
+      <div class="bw-flow-row" style="display: flex; flex-wrap: wrap; gap: 30px; align-items: center; justify-content: center;">
+
+        <div class="bw-flow-col" style="flex: 1 1 260px; min-width: 240px; max-width: 340px;">
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #7d7d76; margin-bottom: 16px;">Raw inputs</div>
+          <div style="display: grid; gap: 12px;">
+            <div style="display: flex; align-items: center; gap: 14px; border: 1px solid #1c1c1a; padding: 15px 17px; font-size: 14.5px; color: #d8d8d2; transition: border-color .4s ease;" style-hover="border-color:oklch(0.86 0.14 175 / 0.5)">
+              <span style="flex: none; width: 3px; height: 22px; background: #2b83c4;"></span>Receipts &amp; invoices
+            </div>
+            <div style="display: flex; align-items: center; gap: 14px; border: 1px solid #1c1c1a; padding: 15px 17px; font-size: 14.5px; color: #d8d8d2; transition: border-color .4s ease;" style-hover="border-color:oklch(0.86 0.14 175 / 0.5)">
+              <span style="flex: none; width: 3px; height: 22px; background: #2b83c4;"></span>Bank &amp; card feeds
+            </div>
+            <div style="display: flex; align-items: center; gap: 14px; border: 1px solid #1c1c1a; padding: 15px 17px; font-size: 14.5px; color: #d8d8d2; transition: border-color .4s ease;" style-hover="border-color:oklch(0.86 0.14 175 / 0.5)">
+              <span style="flex: none; width: 3px; height: 22px; background: #2b83c4;"></span>Payroll &amp; expense records
+            </div>
+          </div>
+        </div>
+
+        <div aria-hidden="true" class="bw-connector" style="flex: 0 0 60px; position: relative; height: 1px; background: #1c1c1a; overflow: hidden;">
+          <span style="position: absolute; top: -2px; left: 0; width: 5px; height: 5px; border-radius: 50%; background: #2b83c4; animation: bwFlowDot 2.6s linear infinite;"></span>
+          <span style="position: absolute; top: -2px; left: 0; width: 5px; height: 5px; border-radius: 50%; background: #2b83c4; animation: bwFlowDot 2.6s linear .9s infinite;"></span>
+        </div>
+
+        <div class="bw-flow-col" style="flex: 0 0 190px; display: flex; flex-direction: column; align-items: center; gap: 18px;">
+          <div style="position: relative; width: 132px; height: 132px; display: grid; place-items: center;">
+            <span aria-hidden="true" style="position: absolute; inset: 0; border-radius: 50%; background: radial-gradient(circle, oklch(0.72 0.14 175 / 0.28), transparent 68%); animation: bwHubGlow 4.2s ease-in-out infinite;"></span>
+            <span aria-hidden="true" style="position: absolute; inset: 6px; border-radius: 50%; border: 1px solid #1f2a28; border-top-color: oklch(0.86 0.14 175); animation: bwHubSpin 7s linear infinite;"></span>
+            <span aria-hidden="true" style="position: absolute; inset: 26px; border-radius: 50%; border: 1px dashed #26261f;"></span>
+            <span style="position: relative; width: 54px; height: 54px; display: grid; place-items: center; border: 1px solid oklch(0.86 0.14 175 / 0.55); font-family: 'IBM Plex Mono', monospace; font-size: 13px; letter-spacing: 0.06em; color: oklch(0.86 0.14 175);">AI</span>
+          </div>
+          <div style="font-size: 17px; font-weight: 600; letter-spacing: -0.02em; text-align: center;">AI processing</div>
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #7d7d76; text-align: center;">Read · match · categorise</div>
+        </div>
+
+        <div aria-hidden="true" class="bw-connector" style="flex: 0 0 60px; position: relative; height: 1px; background: #1c1c1a; overflow: hidden;">
+          <span style="position: absolute; top: -2px; left: 0; width: 5px; height: 5px; border-radius: 50%; background: oklch(0.86 0.14 175); animation: bwFlowDot 2.6s linear .4s infinite;"></span>
+          <span style="position: absolute; top: -2px; left: 0; width: 5px; height: 5px; border-radius: 50%; background: oklch(0.86 0.14 175); animation: bwFlowDot 2.6s linear 1.3s infinite;"></span>
+        </div>
+
+        <div class="bw-flow-col" style="flex: 1 1 260px; min-width: 240px; max-width: 340px;">
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #7d7d76; margin-bottom: 16px;">Reviewed output</div>
+          <div style="display: grid; gap: 12px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; border: 1px solid #1c1c1a; padding: 15px 17px; font-size: 14.5px; color: #d8d8d2;">
+              Bank feed matched <span style="color: oklch(0.86 0.14 175); font-size: 13px;">✓</span>
+            </div>
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; border: 1px solid #1c1c1a; padding: 15px 17px; font-size: 14.5px; color: #d8d8d2;">
+              Invoices categorised <span style="color: oklch(0.86 0.14 175); font-size: 13px;">✓</span>
+            </div>
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; border: 1px solid #1c1c1a; padding: 15px 17px; font-size: 14.5px; color: #d8d8d2;">
+              Books balanced <span style="color: oklch(0.86 0.14 175); font-size: 13px;">✓</span>
+            </div>
+            <div style="border: 1px solid oklch(0.86 0.14 175 / 0.35); padding: 16px 17px; font-size: 14px; line-height: 1.5; color: #b4b4ab; background: oklch(0.5 0.09 175 / 0.07);">
+              Checked by a <strong style="color: #f2f2f0; font-weight: 600;">qualified accountant</strong> before anything is filed.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p style="margin: 42px auto 0; max-width: 78ch; text-align: center; font-size: 14.5px; line-height: 1.7; color: #7d7d76; text-wrap: pretty;">AI handles the repetitive reading, matching and categorising. A qualified accountant still reviews every set of books before it is final — automation supports the work, it does not replace professional judgement.</p>
+    </div>
+    </section>
+      </div>
+    </div>
+  </div>
+  <div data-sheet="2" style="position: absolute; inset: 0; z-index: 58; background: #000; display: flex; flex-direction: column; overflow: hidden; transform-origin: bottom center; backface-visibility: hidden; transition: transform .95s cubic-bezier(.72,.02,.28,1), opacity .95s cubic-bezier(.72,.02,.28,1), box-shadow .95s ease; will-change: transform;">
+    <header style="position: relative; z-index: 10; flex: none; background: rgba(0,0,0,0.62); backdrop-filter: blur(16px); border-bottom: 1px solid #131311;">
+    <div style="padding: 18px 22px; display: flex; flex-wrap: wrap; row-gap: 12px; column-gap: 20px; align-items: center; justify-content: space-between; font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; letter-spacing: 0.14em; text-transform: uppercase; color: #fff;">
+    <a href="index.html" data-cursor="" style="display: flex; align-items: center; gap: 11px; color: #fff; font-weight: 500;"><img src="assets/logo-mark.png" alt="" style="display: block; height: 24px; width: auto; flex: none;">Balance&nbsp;Works&nbsp;LLP</a>
+    <div style="display: flex; flex-wrap: wrap; gap: 14px 22px;">
+    <a href="index.html" data-cursor="" style="color: oklch(0.86 0.14 175);">Home</a>
+    <a href="services.html" data-cursor="" style="color: #fff;">Services</a>
+    <a href="about.html" data-cursor="" style="color: #fff;">About&nbsp;Us</a>
+    <a href="pricing.html" data-cursor="" style="color: #fff;">Pricing</a>
+    <a href="contact.html" data-cursor="" style="color: #fff;">Contact</a>
+    </div>
+    </div>
+    </header>
+    <div data-sheet-inner="" style="flex: 1; min-height: 0; display: flex; flex-direction: column; justify-content: center; padding: 22px 0 74px; overflow: hidden;">
+      <div data-sheet-fit="" style="transform-origin: top center; width: 100%; display: flow-root;">
+    <section style="position: relative; z-index: 2; padding: 0 34px;">
+    <div data-reveal="" style="border: 1px solid #1c1c1a; padding: 40px 34px 42px;">
+      <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; color: #7d7d76;">What this means for you</div>
+      <div style="margin-top: 32px; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 34px;">
+        <div>
+          <div style="display: flex; align-items: baseline; gap: 12px;">
+            <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: oklch(0.86 0.14 175); flex: none;">01</span>
+            <div style="font-size: 18px; font-weight: 600; letter-spacing: -0.018em; color: #f2f2f0;">Real-time strategic insight</div>
+          </div>
+          <p style="margin: 10px 0 0 27px; font-size: 15.5px; line-height: 1.65; color: #9a9a91; text-wrap: pretty;">Stop looking in the rearview mirror. Live financial data, so decisions are made on what is true today.</p>
+        </div>
+        <div>
+          <div style="display: flex; align-items: baseline; gap: 12px;">
+            <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: oklch(0.86 0.14 175); flex: none;">02</span>
+            <div style="font-size: 18px; font-weight: 600; letter-spacing: -0.018em; color: #f2f2f0;">Total ecosystem control</div>
+          </div>
+          <p style="margin: 10px 0 0 27px; font-size: 15.5px; line-height: 1.65; color: #9a9a91; text-wrap: pretty;">AI-enhanced internal controls give you a transparent view of your financial health at any moment.</p>
+        </div>
+        <div>
+          <div style="display: flex; align-items: baseline; gap: 12px;">
+            <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: oklch(0.86 0.14 175); flex: none;">03</span>
+            <div style="font-size: 18px; font-weight: 600; letter-spacing: -0.018em; color: #f2f2f0;">Vision-first focus</div>
+          </div>
+          <p style="margin: 10px 0 0 27px; font-size: 15.5px; line-height: 1.65; color: #9a9a91; text-wrap: pretty;">When finance runs on intelligent autopilot, your energy goes where it belongs — scaling the business.</p>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top: 22px; display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); gap: 22px;">
+
+      <div data-reveal="" style="border: 1px solid #1c1c1a; padding: 30px 28px 32px;">
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #7d7d76;">Example — reading a receipt</div>
+        <div style="margin-top: 26px; display: flex; flex-wrap: wrap; gap: 24px; align-items: stretch;">
+          <div style="flex: 1 1 170px; border: 1px dashed #26261f; padding: 18px 16px; display: grid; gap: 14px; align-content: start; background: #050506;">
+            <div>
+              <div style="font-family: 'IBM Plex Mono', monospace; font-size: 8.5px; letter-spacing: 0.14em; color: #55554f;">VENDOR</div>
+              <div style="margin-top: 5px; height: 9px; background: #1c1c1a; overflow: hidden;"><span style="display: block; height: 100%; background: #2b83c4; transform-origin: left; animation: bwFieldFill 4.6s ease-in-out infinite;"></span></div>
+            </div>
+            <div>
+              <div style="font-family: 'IBM Plex Mono', monospace; font-size: 8.5px; letter-spacing: 0.14em; color: #55554f;">DATE</div>
+              <div style="margin-top: 5px; height: 9px; width: 62%; background: #1c1c1a; overflow: hidden;"><span style="display: block; height: 100%; background: #2b83c4; transform-origin: left; animation: bwFieldFill 4.6s ease-in-out .35s infinite;"></span></div>
+            </div>
+            <div>
+              <div style="font-family: 'IBM Plex Mono', monospace; font-size: 8.5px; letter-spacing: 0.14em; color: #55554f;">AMOUNT</div>
+              <div style="margin-top: 5px; height: 9px; width: 78%; background: #1c1c1a; overflow: hidden;"><span style="display: block; height: 100%; background: oklch(0.86 0.14 175); transform-origin: left; animation: bwFieldFill 4.6s ease-in-out .7s infinite;"></span></div>
+            </div>
+            <div>
+              <div style="font-family: 'IBM Plex Mono', monospace; font-size: 8.5px; letter-spacing: 0.14em; color: #55554f;">CATEGORY</div>
+              <div style="margin-top: 5px; height: 9px; width: 52%; background: #1c1c1a; overflow: hidden;"><span style="display: block; height: 100%; background: #7b3fa0; transform-origin: left; animation: bwFieldFill 4.6s ease-in-out 1.05s infinite;"></span></div>
+            </div>
+          </div>
+          <div style="flex: 1 1 200px; display: grid; align-content: start;">
+            <div style="display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px solid #131311; padding: 11px 0;">
+              <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.12em; color: #7d7d76;">VENDOR</span><span style="font-size: 13.5px; font-weight: 600; color: #f2f2f0;">Northgate Supplies</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px solid #131311; padding: 11px 0;">
+              <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.12em; color: #7d7d76;">DATE</span><span style="font-size: 13.5px; font-weight: 600; color: #f2f2f0;">14 Jul 2026</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px solid #131311; padding: 11px 0;">
+              <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.12em; color: #7d7d76;">AMOUNT</span><span style="font-size: 13.5px; font-weight: 600; color: #f2f2f0;">S$482.00</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px solid #131311; padding: 11px 0;">
+              <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.12em; color: #7d7d76;">CATEGORY</span><span style="font-size: 13.5px; font-weight: 600; color: #f2f2f0;">Office Supplies</span>
+            </div>
+            <div style="margin-top: 14px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: oklch(0.86 0.14 175);">✓ Ready for review</div>
+          </div>
+        </div>
+      </div>
+
+      <div data-reveal="" style="border: 1px solid #1c1c1a; padding: 30px 28px 32px;">
+        <div style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; align-items: baseline;">
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #7d7d76;">Example — the report you'd get</div>
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.1em; color: #55554f;">Illustrative</div>
+        </div>
+        <div style="margin-top: 22px; font-size: 20px; font-weight: 600; letter-spacing: -0.02em;">Monthly overview</div>
+        <div style="margin-top: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 12px;">
+          <div style="border: 1px solid #1c1c1a; padding: 15px 16px;">
+            <div style="font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; letter-spacing: 0.14em; color: #7d7d76;">REVENUE</div>
+            <div style="margin-top: 8px; font-size: 22px; font-weight: 700; letter-spacing: -0.03em;">S$128.4k</div>
+            <div style="margin-top: 5px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #2e9147;">▲ 12%</div>
+          </div>
+          <div style="border: 1px solid #1c1c1a; padding: 15px 16px;">
+            <div style="font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; letter-spacing: 0.14em; color: #7d7d76;">EXPENSES</div>
+            <div style="margin-top: 8px; font-size: 22px; font-weight: 700; letter-spacing: -0.03em;">S$76.2k</div>
+            <div style="margin-top: 5px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #d93a34;">▼ 4%</div>
+          </div>
+          <div style="border: 1px solid #1c1c1a; padding: 15px 16px;">
+            <div style="font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; letter-spacing: 0.14em; color: #7d7d76;">NET MARGIN</div>
+            <div style="margin-top: 8px; font-size: 22px; font-weight: 700; letter-spacing: -0.03em;">41%</div>
+            <div style="margin-top: 5px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #2e9147;">▲ 3 pts</div>
+          </div>
+        </div>
+        <div style="margin-top: 22px; display: flex; flex-wrap: wrap; gap: 26px; align-items: center;">
+          <svg viewBox="0 0 300 90" style="flex: 1 1 190px; height: 90px; overflow: visible;" aria-label="Revenue trend">
+            <polyline points="0,74 34,66 68,70 102,52 136,56 170,38 204,42 238,24 272,20 300,8" fill="none" stroke="oklch(0.86 0.14 175)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="420" style="animation: bwSparkDraw 2.4s cubic-bezier(.16,1,.3,1) both;"></polyline>
+            <circle cx="300" cy="8" r="3.5" fill="oklch(0.86 0.14 175)"></circle>
+          </svg>
+          <div style="display: flex; gap: 18px; align-items: center;">
+            <svg viewBox="0 0 42 42" style="width: 84px; height: 84px; transform: rotate(-90deg);" aria-label="Expense split">
+              <circle cx="21" cy="21" r="15.9" fill="none" stroke="#131311" stroke-width="6"></circle>
+              <circle cx="21" cy="21" r="15.9" fill="none" stroke="#2b83c4" stroke-width="6" stroke-dasharray="46 54" stroke-dashoffset="0"></circle>
+              <circle cx="21" cy="21" r="15.9" fill="none" stroke="oklch(0.86 0.14 175)" stroke-width="6" stroke-dasharray="34 66" stroke-dashoffset="-46"></circle>
+              <circle cx="21" cy="21" r="15.9" fill="none" stroke="#7b3fa0" stroke-width="6" stroke-dasharray="20 80" stroke-dashoffset="-80"></circle>
+            </svg>
+            <div style="display: grid; gap: 8px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8d8d84;">
+              <span style="display: flex; align-items: center; gap: 8px;"><span style="width: 9px; height: 9px; background: #2b83c4;"></span>Payroll</span>
+              <span style="display: flex; align-items: center; gap: 8px;"><span style="width: 9px; height: 9px; background: oklch(0.86 0.14 175);"></span>Operations</span>
+              <span style="display: flex; align-items: center; gap: 8px;"><span style="width: 9px; height: 9px; background: #7b3fa0;"></span>Other</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+      </div>
+    </div>
+  </div>
+  <div data-sheet="3" style="position: absolute; inset: 0; z-index: 57; background: #000; display: flex; flex-direction: column; overflow: hidden; transform-origin: bottom center; backface-visibility: hidden; transition: transform .95s cubic-bezier(.72,.02,.28,1), opacity .95s cubic-bezier(.72,.02,.28,1), box-shadow .95s ease; will-change: transform;">
+    <header style="position: relative; z-index: 10; flex: none; background: rgba(0,0,0,0.62); backdrop-filter: blur(16px); border-bottom: 1px solid #131311;">
+    <div style="padding: 18px 22px; display: flex; flex-wrap: wrap; row-gap: 12px; column-gap: 20px; align-items: center; justify-content: space-between; font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; letter-spacing: 0.14em; text-transform: uppercase; color: #fff;">
+    <a href="index.html" data-cursor="" style="display: flex; align-items: center; gap: 11px; color: #fff; font-weight: 500;"><img src="assets/logo-mark.png" alt="" style="display: block; height: 24px; width: auto; flex: none;">Balance&nbsp;Works&nbsp;LLP</a>
+    <div style="display: flex; flex-wrap: wrap; gap: 14px 22px;">
+    <a href="index.html" data-cursor="" style="color: oklch(0.86 0.14 175);">Home</a>
+    <a href="services.html" data-cursor="" style="color: #fff;">Services</a>
+    <a href="about.html" data-cursor="" style="color: #fff;">About&nbsp;Us</a>
+    <a href="pricing.html" data-cursor="" style="color: #fff;">Pricing</a>
+    <a href="contact.html" data-cursor="" style="color: #fff;">Contact</a>
+    </div>
+    </div>
+    </header>
+    <div data-sheet-inner="" style="flex: 1; min-height: 0; display: flex; flex-direction: column; justify-content: center; padding: 22px 0 74px; overflow: hidden;">
+      <div data-sheet-fit="" style="transform-origin: top center; width: 100%; display: flow-root;">
+  <section id="services" style="position: relative; z-index: 2; padding: 0 34px;">
+    <div data-reveal="" style="display: flex; align-items: center; gap: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; letter-spacing: 0.16em; text-transform: uppercase; color: #7d7d76;">
+      <span aria-hidden="true" style="width: 7px; height: 7px; border-radius: 50%; background: oklch(0.86 0.14 175); flex: none;"></span>What we offer
+    </div>
+    <h2 data-reveal="" style="margin: 22px 0 0; font-size: clamp(30px, 4.6vw, 62px); font-weight: 700; letter-spacing: -0.04em; line-height: 1;">Core services</h2>
+
+    <div data-reveal="" style="margin-top: 54px; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px;">
+      <div data-cursor="" data-spot="" data-cursor-label="service" style="border: 1px solid #1c1c1a; background: #0a0a09; padding: 30px 26px 34px; cursor: pointer; transition: background-image .3s ease, border-color .4s ease;" style-hover="border-color: #2f2f2a">
+        <div style="width: 46px; height: 46px; border: 1px solid #26261f; display: flex; align-items: center; justify-content: center;">
+          <svg viewBox="0 0 24 24" style="width: 20px; height: 20px;" aria-hidden="true">
+            <rect x="4.5" y="3" width="15" height="18" fill="none" stroke="oklch(0.86 0.14 175)" stroke-width="1.6"></rect>
+            <line x1="8" y1="8" x2="16" y2="8" stroke="oklch(0.86 0.14 175)" stroke-width="1.6"></line>
+            <line x1="8" y1="12" x2="16" y2="12" stroke="oklch(0.86 0.14 175)" stroke-width="1.6"></line>
+            <line x1="8" y1="16" x2="13" y2="16" stroke="oklch(0.86 0.14 175)" stroke-width="1.6"></line>
+          </svg>
+        </div>
+        <h3 style="margin: 26px 0 0; font-size: 19px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.25;">Automated Bookkeeping</h3>
+        <p style="margin: 14px 0 0; font-size: 15.5px; line-height: 1.6; color: #9a9a91; text-wrap: pretty;">Day-to-day recording, categorisation and reconciliation, automated wherever possible.</p>
+      </div>
+      <div data-cursor="" data-spot="" data-cursor-label="service" style="border: 1px solid #1c1c1a; background: #0a0a09; padding: 30px 26px 34px; cursor: pointer; transition: background-image .3s ease, border-color .4s ease;" style-hover="border-color: #2f2f2a">
+        <div style="width: 46px; height: 46px; border: 1px solid #26261f; display: flex; align-items: center; justify-content: center;">
+          <svg viewBox="0 0 24 24" style="width: 20px; height: 20px;" aria-hidden="true">
+            <line x1="5" y1="20" x2="19" y2="20" stroke="oklch(0.86 0.14 175)" stroke-width="1.6"></line>
+            <rect x="6" y="13" width="3.4" height="5" fill="oklch(0.86 0.14 175)"></rect>
+            <rect x="11.3" y="9" width="3.4" height="9" fill="oklch(0.86 0.14 175)"></rect>
+            <rect x="16.6" y="5" width="3.4" height="13" fill="oklch(0.86 0.14 175)"></rect>
+          </svg>
+        </div>
+        <h3 style="margin: 26px 0 0; font-size: 19px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.25;">Financial Reporting</h3>
+        <p style="margin: 14px 0 0; font-size: 15.5px; line-height: 1.6; color: #9a9a91; text-wrap: pretty;">Accurate, timely financial statements built on clean, automated data.</p>
+      </div>
+      <div data-cursor="" data-spot="" data-cursor-label="service" style="border: 1px solid #1c1c1a; background: #0a0a09; padding: 30px 26px 34px; cursor: pointer; transition: background-image .3s ease, border-color .4s ease;" style-hover="border-color: #2f2f2a">
+        <div style="width: 46px; height: 46px; border: 1px solid #26261f; display: flex; align-items: center; justify-content: center;">
+          <svg viewBox="0 0 24 24" style="width: 20px; height: 20px;" aria-hidden="true">
+            <circle cx="11" cy="10.5" r="6" fill="none" stroke="oklch(0.86 0.14 175)" stroke-width="1.6"></circle>
+            <line x1="15.4" y1="15" x2="20" y2="19.6" stroke="oklch(0.86 0.14 175)" stroke-width="1.6"></line>
+            <line x1="8.4" y1="11.6" x2="11" y2="8.6" stroke="oklch(0.86 0.14 175)" stroke-width="1.4"></line>
+            <line x1="11" y1="8.6" x2="13.6" y2="11.6" stroke="oklch(0.86 0.14 175)" stroke-width="1.4"></line>
+          </svg>
+        </div>
+        <h3 style="margin: 26px 0 0; font-size: 19px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.25;">Financial Analysis</h3>
+        <p style="margin: 14px 0 0; font-size: 15.5px; line-height: 1.6; color: #9a9a91; text-wrap: pretty;">Data handling and analysis that turns your numbers into readable business insight.</p>
+      </div>
+      <div data-cursor="" data-spot="" data-cursor-label="service" style="border: 1px solid #1c1c1a; background: #0a0a09; padding: 30px 26px 34px; cursor: pointer; transition: background-image .3s ease, border-color .4s ease;" style-hover="border-color: #2f2f2a">
+        <div style="width: 46px; height: 46px; border: 1px solid #26261f; display: flex; align-items: center; justify-content: center;">
+          <svg viewBox="0 0 24 24" style="width: 20px; height: 20px;" aria-hidden="true">
+            <line x1="6" y1="6" x2="18" y2="18" stroke="oklch(0.86 0.14 175)" stroke-width="2"></line>
+            <line x1="18" y1="6" x2="6" y2="18" stroke="oklch(0.86 0.14 175)" stroke-width="2"></line>
+          </svg>
+        </div>
+        <h3 style="margin: 26px 0 0; font-size: 19px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.25;">Workflow Automation</h3>
+        <p style="margin: 14px 0 0; font-size: 15.5px; line-height: 1.6; color: #9a9a91; text-wrap: pretty;">Mapping and automating the accounting processes that currently eat up manual hours.</p>
+      </div>
+    </div>
+
+    <div data-reveal="" style="margin-top: 40px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap;">
+      <a href="services.html" data-cursor="" data-magnetic="" data-cursor-label="services" style="display: inline-flex; align-items: center; gap: 12px; border: 1px solid #2a2a27; padding: 15px 22px; font-size: 14.5px; font-weight: 600; letter-spacing: -0.01em; color: #f2f2f0; transition: border-color .3s ease, color .3s ease;" style-hover="border-color: oklch(0.86 0.14 175); color: oklch(0.86 0.14 175)">View full services <span aria-hidden="true">→</span></a>
+    </div>
+
+  </section>
+      </div>
+    </div>
+  </div>
+  <div data-sheet="4" style="position: absolute; inset: 0; z-index: 56; background: #000; display: flex; flex-direction: column; overflow: hidden; transform-origin: bottom center; backface-visibility: hidden; transition: transform .95s cubic-bezier(.72,.02,.28,1), opacity .95s cubic-bezier(.72,.02,.28,1), box-shadow .95s ease; will-change: transform;">
+    <header style="position: relative; z-index: 10; flex: none; background: rgba(0,0,0,0.62); backdrop-filter: blur(16px); border-bottom: 1px solid #131311;">
+    <div style="padding: 18px 22px; display: flex; flex-wrap: wrap; row-gap: 12px; column-gap: 20px; align-items: center; justify-content: space-between; font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; letter-spacing: 0.14em; text-transform: uppercase; color: #fff;">
+    <a href="index.html" data-cursor="" style="display: flex; align-items: center; gap: 11px; color: #fff; font-weight: 500;"><img src="assets/logo-mark.png" alt="" style="display: block; height: 24px; width: auto; flex: none;">Balance&nbsp;Works&nbsp;LLP</a>
+    <div style="display: flex; flex-wrap: wrap; gap: 14px 22px;">
+    <a href="index.html" data-cursor="" style="color: oklch(0.86 0.14 175);">Home</a>
+    <a href="services.html" data-cursor="" style="color: #fff;">Services</a>
+    <a href="about.html" data-cursor="" style="color: #fff;">About&nbsp;Us</a>
+    <a href="pricing.html" data-cursor="" style="color: #fff;">Pricing</a>
+    <a href="contact.html" data-cursor="" style="color: #fff;">Contact</a>
+    </div>
+    </div>
+    </header>
+    <div data-sheet-inner="" style="flex: 1; min-height: 0; display: flex; flex-direction: column; justify-content: center; padding: 22px 0 74px; overflow: hidden;">
+      <div data-sheet-fit="" style="transform-origin: top center; width: 100%; display: flow-root;">
+  <section style="position: relative; z-index: 2; padding: 0 34px;">
+    <div data-reveal="" style="display: inline-flex; align-items: center; gap: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; letter-spacing: 0.16em; text-transform: uppercase; color: #7d7d76;">
+      <span aria-hidden="true" style="width: 7px; height: 7px; border-radius: 50%; background: oklch(0.86 0.14 175); flex: none;"></span>Aims
+    </div>
+    <h2 data-reveal="" style="margin: 22px 0 46px; font-size: clamp(30px, 4.6vw, 62px); font-weight: 700; letter-spacing: -0.04em; line-height: 1;">We aim to achieve</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1px; background: #1c1c1a; border: 1px solid #1c1c1a;">
+      <sc-for list="{{ stats }}" as="st" hint-placeholder-count="4">
+        <div data-reveal="" style="background: #000; padding: 40px 28px;">
+          <div style="font-size: clamp(34px, 4.4vw, 58px); font-weight: 700; letter-spacing: -0.04em; line-height: 1; color: oklch(0.86 0.14 175);">{{ st.k }}</div>
+          <div style="margin-top: 14px; font-size: 13.5px; line-height: 1.5; color: #8d8d84; max-width: 24ch;">{{ st.v }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <footer style="position: relative; z-index: 2; margin-top: 60px; border-top: 1px solid #1c1c1a;">
+    <div style="padding: 70px 34px 60px; display: flex; justify-content: center;">
+      <img src="assets/logo-full.png" alt="Balance Works LLP" data-reveal="" style="display: block; width: 210px; max-width: 62vw; height: auto;">
+    </div>
+    <div style="border-top: 1px solid #1c1c1a; padding: 30px 34px; display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #7d7d76;">
+      <span>© {{ year }} Balance Works LLP · Singapore</span>
+      <span>Automating the ledger. Balancing your life.</span>
+    </div>
+  </footer>
+      </div>
+    </div>
+  </div>
+  <div data-sheet="5" style="position: absolute; inset: 0; z-index: 55; background: #000; display: flex; flex-direction: column; overflow: hidden; transform-origin: bottom center; backface-visibility: hidden; transition: transform .95s cubic-bezier(.72,.02,.28,1), opacity .95s cubic-bezier(.72,.02,.28,1), box-shadow .95s ease; will-change: transform;">
+    <header style="position: relative; z-index: 10; flex: none; background: rgba(0,0,0,0.62); backdrop-filter: blur(16px); border-bottom: 1px solid #131311;">
+    <div style="padding: 18px 22px; display: flex; flex-wrap: wrap; row-gap: 12px; column-gap: 20px; align-items: center; justify-content: space-between; font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; letter-spacing: 0.14em; text-transform: uppercase; color: #fff;">
+    <a href="index.html" data-cursor="" style="display: flex; align-items: center; gap: 11px; color: #fff; font-weight: 500;"><img src="assets/logo-mark.png" alt="" style="display: block; height: 24px; width: auto; flex: none;">Balance&nbsp;Works&nbsp;LLP</a>
+    <div style="display: flex; flex-wrap: wrap; gap: 14px 22px;">
+    <a href="index.html" data-cursor="" style="color: oklch(0.86 0.14 175);">Home</a>
+    <a href="services.html" data-cursor="" style="color: #fff;">Services</a>
+    <a href="about.html" data-cursor="" style="color: #fff;">About&nbsp;Us</a>
+    <a href="pricing.html" data-cursor="" style="color: #fff;">Pricing</a>
+    <a href="contact.html" data-cursor="" style="color: #fff;">Contact</a>
+    </div>
+    </div>
+    </header>
+    <div data-sheet-inner="" style="flex: 1; min-height: 0; display: flex; flex-direction: column; justify-content: center; padding: 22px 0 74px; overflow: hidden;">
+      <div data-sheet-fit="" style="transform-origin: top center; width: 100%; display: flow-root;">
+      <section style="position: relative; z-index: 2; padding: 0 34px; text-align: center;">
+        <div style="display: inline-flex; align-items: center; gap: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; letter-spacing: 0.16em; text-transform: uppercase; color: #7d7d76;">
+          <span aria-hidden="true" style="width: 7px; height: 7px; border-radius: 50%; background: oklch(0.86 0.14 175); flex: none;"></span>Get started
+        </div>
+        <h2 style="margin: 26px auto 0; max-width: 22ch; font-size: clamp(30px, 5vw, 68px); font-weight: 700; letter-spacing: -0.04em; line-height: 1.02; text-wrap: balance;">Tell us what's eating your week.</h2>
+        <p style="margin: 24px auto 0; max-width: 52ch; font-size: 16.5px; line-height: 1.65; color: #9a9a91; text-wrap: pretty;">We'll take a look at where things stand today and where automation could realistically make a difference.</p>
+        <div style="margin-top: 38px; display: flex; flex-wrap: wrap; gap: 16px; justify-content: center;">
+          <a href="contact.html" data-cursor="" data-magnetic="" data-cursor-label="connect" style="display: inline-flex; align-items: center; gap: 12px; padding: 16px 26px; border: 1px solid oklch(0.86 0.14 175); border-radius: 999px; font-size: 14.5px; font-weight: 600; color: oklch(0.86 0.14 175);">Connect With Us <span aria-hidden="true">→</span></a>
+        </div>
+      </section>
+      </div>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script="" data-props="{&quot;formEndpointKey&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Contact form&quot;,&quot;label&quot;:&quot;Web3Forms access key (blank = mailto)&quot;}}">
+class Component extends DCLogic {
+  state = { status: "", error: false, sending: false, active: 0, posted: 128, unmatched: 3 };
+
+  componentDidMount() {
+    this._ticker = setInterval(() => this.setState((s) => ({
+      posted: s.posted + 1 + Math.floor(Math.random() * 3),
+      unmatched: Math.max(0, (s.unmatched + (Math.random() > 0.55 ? 1 : -1)) % 6)
+    })), 2600);
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const nodes = []; // flip-book pages are always on-screen; no scroll reveal
+    if (!reduce) {
+      nodes.forEach((n, i) => {
+        n.style.opacity = '0';
+        n.style.transform = 'translateY(26px)';
+        const d = (i % 5) * 70;
+        n.style.transition = 'opacity .9s cubic-bezier(.16,1,.3,1) ' + d + 'ms, transform .9s cubic-bezier(.16,1,.3,1) ' + d + 'ms';
+      });
+      let fired = false;
+      const show = (n) => { n.style.opacity = '1'; n.style.transform = 'none'; n.dataset.revealed = '1'; };
+      const sweep = () => {
+        const vh = window.innerHeight || 800;
+        let pending = 0;
+        nodes.forEach((n) => {
+          if (n.dataset.revealed) return;
+          const b = n.getBoundingClientRect();
+          if (b.top < vh * 0.94 && b.bottom > 0) show(n); else pending++;
+        });
+        return pending;
+      };
+      sweep();
+      const io = new IntersectionObserver((es) => {
+        fired = true;
+        es.forEach((e) => {
+          if (e.isIntersecting) { show(e.target); io.unobserve(e.target); }
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -6% 0px' });
+      nodes.forEach((n) => io.observe(n));
+      this._io = io;
+      const onScroll = () => { if (sweep() === 0) { window.removeEventListener('scroll', onScroll); window.removeEventListener('resize', onScroll); } };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll);
+      this._revealCleanup = () => { window.removeEventListener('scroll', onScroll); window.removeEventListener('resize', onScroll); };
+      setTimeout(() => { if (!fired) nodes.forEach(show); }, 1600);
+    }
+
+    this.initBook();
+
+    const cur = document.getElementById('bw-cursor');
+    const ring = document.getElementById('bw-ring');
+    const label = document.getElementById('bw-ring-label');
+    if (cur && ring && !reduce && window.matchMedia('(hover: hover)').matches) {
+      const GOLD = '95,227,207';
+      let tx = innerWidth / 2, ty = innerHeight / 2;
+      let dx = tx, dy = ty, rx = tx, ry = ty, vx = 0, vy = 0, raf;
+      let magnets = [], spotRow = null;
+
+      const refresh = () => { magnets = Array.from(document.querySelectorAll('[data-magnetic]')); };
+      refresh();
+
+      const move = (e) => {
+        vx = e.clientX - tx; vy = e.clientY - ty;
+        tx = e.clientX; ty = e.clientY;
+        if (spotRow) {
+          const b = spotRow.getBoundingClientRect();
+          spotRow.style.backgroundImage = 'radial-gradient(360px circle at ' + (e.clientX - b.left) + 'px ' + (e.clientY - b.top) + 'px, rgba(' + GOLD + ',0.09), transparent 72%)';
+        }
+        const g1 = document.getElementById('bw-glow1');
+        const g2 = document.getElementById('bw-glow2');
+        const px = (e.clientX / innerWidth - 0.5), py = (e.clientY / innerHeight - 0.5);
+        if (g1) g1.style.transform = 'translate3d(' + (px * 60) + 'px,' + (py * 40) + 'px,0)';
+        if (g2) g2.style.transform = 'translate3d(' + (px * -50) + 'px,' + (py * -34) + 'px,0)';
+      };
+
+      const tick = () => {
+        dx += (tx - dx) * 0.28; dy += (ty - dy) * 0.28;
+        rx += (tx - rx) * 0.11; ry += (ty - ry) * 0.11;
+        const speed = Math.min(Math.hypot(tx - rx, ty - ry), 90);
+        const stretch = 1 + speed / 260;
+        const ang = (Math.atan2(ty - ry, tx - rx) * 180) / Math.PI;
+        cur.style.transform = 'translate3d(' + (dx - cur.offsetWidth / 2) + 'px,' + (dy - cur.offsetHeight / 2) + 'px,0)';
+        ring.style.transform = 'translate3d(' + (rx - ring.offsetWidth / 2) + 'px,' + (ry - ring.offsetHeight / 2) + 'px,0) rotate(' + ang + 'deg) scale(' + stretch + ',' + (1 / stretch) + ')';
+        for (const m of magnets) {
+          const b = m.getBoundingClientRect();
+          const mx = b.left + b.width / 2, my = b.top + b.height / 2;
+          const d = Math.hypot(tx - mx, ty - my);
+          const pull = d < 170 ? (1 - d / 170) : 0;
+          m.style.transform = 'translate3d(' + ((tx - mx) * 0.14 * pull) + 'px,' + ((ty - my) * 0.14 * pull) + 'px,0)';
+        }
+        raf = requestAnimationFrame(tick);
+      };
+
+      const over = (e) => {
+        const t = e.target;
+        const hot = t.closest && t.closest('[data-cursor],a,button,input,textarea,select');
+        const txt = hot && hot.closest('[data-cursor-label]');
+        const big = !!hot;
+        cur.style.width = big ? '6px' : '14px';
+        cur.style.height = big ? '6px' : '14px';
+        ring.style.width = txt ? '76px' : big ? '58px' : '40px';
+        ring.style.height = txt ? '76px' : big ? '58px' : '40px';
+        ring.style.backgroundColor = txt ? 'rgba(' + GOLD + ',0.92)' : big ? 'rgba(' + GOLD + ',0.1)' : 'transparent';
+        ring.style.borderColor = big ? 'rgba(' + GOLD + ',0.9)' : 'rgba(' + GOLD + ',0.5)';
+        if (label) {
+          label.textContent = txt ? txt.getAttribute('data-cursor-label') : '';
+          label.style.opacity = txt ? '1' : '0';
+        }
+        const row = t.closest && t.closest('[data-spot]');
+        if (row !== spotRow) {
+          if (spotRow) spotRow.style.backgroundImage = 'none';
+          spotRow = row;
+        }
+      };
+
+      const leave = () => { cur.style.opacity = '0'; ring.style.opacity = '0'; };
+      const enter = () => { cur.style.opacity = '1'; ring.style.opacity = '1'; };
+
+      window.addEventListener('mousemove', move, { passive: true });
+      window.addEventListener('mouseover', over, { passive: true });
+      window.addEventListener('resize', refresh);
+      document.addEventListener('mouseleave', leave);
+      document.addEventListener('mouseenter', enter);
+      raf = requestAnimationFrame(tick);
+      this._cleanupCursor = () => {
+        window.removeEventListener('mousemove', move);
+        window.removeEventListener('mouseover', over);
+        window.removeEventListener('resize', refresh);
+        document.removeEventListener('mouseleave', leave);
+        document.removeEventListener('mouseenter', enter);
+        cancelAnimationFrame(raf);
+      };
+    }
+  }
+
+  initBook() {
+    const book = document.querySelector('[data-book]');
+    if (!book) return;
+    const sheets = Array.from(book.querySelectorAll('[data-sheet]'));
+    const dots = Array.from(book.querySelectorAll('[data-page-dot]'));
+    const counter = book.querySelector('[data-page-count]');
+    const hint = book.querySelector('[data-page-hint]');
+    const last = sheets.length - 1;
+    let page = 0, locked = false;
+
+    const fit = () => {
+      sheets.forEach((s) => {
+        const inner = s.querySelector('[data-sheet-inner]');
+        const box = s.querySelector('[data-sheet-fit]');
+        if (!inner || !box) return;
+        box.style.transform = 'scale(1)';
+        const cs = getComputedStyle(inner);
+        const avail = inner.clientHeight - parseFloat(cs.paddingTop || 0) - parseFloat(cs.paddingBottom || 0) - 8;
+        const need = Math.max(box.scrollHeight, box.getBoundingClientRect().height);
+        const raw = need > avail && need > 0 ? (avail / need) * 0.97 : 1;
+        const k = Math.max(0.62, raw);
+        box.style.transform = 'scale(' + k + ')';
+        box.style.marginBottom = k < 1 ? -(need - need * k) + 'px' : '0px';
+        inner.style.justifyContent = raw < 0.62 ? 'flex-start' : 'center';
+        // Too tall even at the legibility floor: let this one sheet scroll instead of clipping.
+        const spills = raw < 0.62;
+        inner.style.overflowY = spills ? 'auto' : 'hidden';
+        inner.dataset.spills = spills ? '1' : '';
+      });
+    };
+
+    const paint = () => {
+      sheets.forEach((s, i) => {
+        s.style.transform = 'translateX(' + ((i - page) * 100) + '%)';
+        s.style.opacity = '1';
+        s.style.boxShadow = 'none';
+        s.style.pointerEvents = i === page ? 'auto' : 'none';
+      });
+      dots.forEach((d, i) => { d.style.background = i === page ? 'oklch(0.86 0.14 175)' : '#26261f'; });
+      if (counter) counter.textContent = '0' + (page + 1) + ' / 0' + sheets.length;
+      if (hint) hint.textContent = page === last ? 'Click to start over' : 'Scroll or click to turn';
+    };
+
+    const go = (n) => {
+      const next = n < 0 ? 0 : n > last ? 0 : n;
+      if (next === page || locked) return;
+      locked = true;
+      page = next;
+      const nextInner = sheets[next] && sheets[next].querySelector('[data-sheet-inner]');
+      if (nextInner) nextInner.scrollTop = 0;
+      paint();
+      setTimeout(() => { locked = false; }, 720);
+    };
+
+    let acc = 0, accTimer;
+    const atEdge = (dir) => {
+      const inner = sheets[page] && sheets[page].querySelector('[data-sheet-inner]');
+      if (!inner || inner.dataset.spills !== '1') return true;
+      if (dir > 0) return inner.scrollTop + inner.clientHeight >= inner.scrollHeight - 3;
+      return inner.scrollTop <= 3;
+    };
+    const onClick = (e) => {
+      if (e.target.closest && e.target.closest('a,button,input,textarea,select,label,[data-no-flip]')) return;
+      const inner = sheets[page] && sheets[page].querySelector('[data-sheet-inner]');
+      if (inner && inner.dataset.spills === '1' && !atEdge(1)) {
+        inner.scrollBy({ top: inner.clientHeight * 0.85, behavior: 'smooth' });
+        return;
+      }
+      go(page + 1);
+    };
+    const onWheel = (e) => {
+      if (!atEdge(e.deltaY > 0 ? 1 : -1)) return; // let the tall sheet scroll first
+      e.preventDefault();
+      if (locked) return;
+      acc += e.deltaY;
+      clearTimeout(accTimer);
+      accTimer = setTimeout(() => { acc = 0; }, 220);
+      if (acc > 46) { acc = 0; go(page + 1); }
+      else if (acc < -46) { acc = 0; go(page - 1); }
+    };
+    let ty = null;
+    const onTouchStart = (e) => { ty = e.touches[0].clientY; };
+    const onTouchEnd = (e) => {
+      if (ty === null) return;
+      const dy = ty - e.changedTouches[0].clientY;
+      if (Math.abs(dy) > 44) go(page + (dy > 0 ? 1 : -1));
+      ty = null;
+    };
+    const onResize = () => fit();
+
+    book.addEventListener('wheel', onWheel, { passive: false });
+    book.addEventListener('click', onClick);
+    book.addEventListener('touchstart', onTouchStart, { passive: true });
+    book.addEventListener('touchend', onTouchEnd, { passive: true });
+    window.addEventListener('resize', onResize);
+
+    fit();
+    setTimeout(fit, 400);
+    setTimeout(fit, 1400);
+    if (window.ResizeObserver) {
+      const ro = new ResizeObserver(() => { clearTimeout(this._fitT); this._fitT = setTimeout(fit, 120); });
+      sheets.forEach((s) => { const b = s.querySelector('[data-sheet-fit]'); if (b) ro.observe(b); });
+      this._fitRO = ro;
+    }
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+    paint();
+
+    this._bookCleanup = () => {
+      book.removeEventListener('wheel', onWheel);
+      book.removeEventListener('click', onClick);
+      book.removeEventListener('touchstart', onTouchStart);
+      book.removeEventListener('touchend', onTouchEnd);
+      window.removeEventListener('resize', onResize);
+    };
+  }
+
+  componentWillUnmount() {
+    if (this._bookCleanup) this._bookCleanup();
+    clearInterval(this._ticker);
+    if (this._io) this._io.disconnect();
+    if (this._revealCleanup) this._revealCleanup();
+    if (this._cleanupCursor) this._cleanupCursor();
+  }
+
+  onSubmit = (e) => {
+    e.preventDefault();
+    const f = e.target;
+    const get = (n) => (f.elements[n] ? f.elements[n].value : "");
+    const key = this.props.formEndpointKey || "";
+    const to = "Consultants@balanceworkssg.com";
+    const subject = "Website enquiry — " + get("service");
+    const body = "Name: " + get("name") + "\n" + "Email: " + get("email") + "\n" + "Company: " + get("company") + "\n" + "Phone: " + get("phone") + "\n" + "Service: " + get("service") + "\n\n" + get("message");
+    if (!key) {
+      window.location.href = "mailto:" + to + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+      this.setState({ status: "Opening your email app — if nothing happens, write to " + to + " directly.", error: false });
+      return;
+    }
+    this.setState({ sending: true, status: "Sending…", error: false });
+    fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({ access_key: key, subject, from_name: "Balance Works website", name: get("name"), email: get("email"), company: get("company"), phone: get("phone"), service: get("service"), message: get("message") })
+    })
+      .then((r) => r.json())
+      .then((d) => {
+        if (d && d.success) { f.reset(); this.setState({ sending: false, status: "Thanks — we'll reply within one business day.", error: false }); }
+        else { this.setState({ sending: false, status: "Something went wrong. Please email " + to + ".", error: true }); }
+      })
+      .catch(() => this.setState({ sending: false, status: "Network error. Please email " + to + ".", error: true }));
+  };
+
+  renderVals() {
+    const s = this.state;
+    const raw = [
+      { title: "Accounting Automation", body: "Bank feeds, receipt capture, reconciliation rules and approval flows wired into Xero or QuickBooks so the ledger keeps itself current.", tags: ["Xero", "QuickBooks", "Bank feeds"], flow: [{ t: "Bank & card feeds", d: "imported and matched daily" }, { t: "Receipts captured", d: "OCR read, attached to entries" }, { t: "Rules & approvals", d: "coded automatically, exceptions flagged" }, { t: "Ledger stays current", d: "no month-end catch-up" }] },
+      { title: "Bookkeeping", body: "Monthly bookkeeping, reconciliations, AP/AR and management accounts — delivered on a fixed calendar, not when we get to it.", tags: ["Monthly close", "AP / AR", "Mgmt accounts"], flow: [{ t: "Documents collected", d: "one shared intake, chased for you" }, { t: "Reconciled & posted", d: "bank, AP, AR, accruals" }, { t: "Management accounts", d: "P&L, balance sheet, cash" }, { t: "Delivered on a date", d: "same day every month" }] },
+      { title: "Company Incorporation", body: "Pte Ltd registration with ACRA, constitution, share structure, nominee director and corporate bank account introductions.", tags: ["ACRA", "Pte Ltd", "Bank account"], flow: [{ t: "Name & structure", d: "shares, directors, capital" }, { t: "ACRA filing", d: "submitted, usually within 24 hrs" }, { t: "Constitution & registers", d: "documents issued and stored" }, { t: "Bank account intro", d: "corporate account opened" }] },
+      { title: "Corporate Secretarial", body: "Named company secretary, registers, AGM and annual return filings, resolutions and every statutory deadline tracked for you.", tags: ["Company sec", "Annual return", "Registers"], flow: [{ t: "Deadline calendar", d: "every statutory date tracked" }, { t: "Resolutions drafted", d: "circulated for signature" }, { t: "AGM & annual return", d: "prepared and filed" }, { t: "Registers maintained", d: "always inspection-ready" }] },
+      { title: "Process Automation", body: "The work between the systems: quote-to-invoice, payroll handoffs, claims, onboarding. Mapped, rebuilt and monitored.", tags: ["Workflows", "Integrations", "SOPs"], flow: [{ t: "Map the process", d: "who touches what, and when" }, { t: "Rebuild the handoffs", d: "forms, approvals, notifications" }, { t: "Connect the systems", d: "ledger, CRM, payroll, storage" }, { t: "Monitor & alert", d: "failures surface, not silently pile up" }] },
+      { title: "Dashboarding & BI", body: "One live view of cash, runway, margin and receivables — pulled straight from your ledger instead of a monthly spreadsheet.", tags: ["Cash & runway", "Live data", "Board packs"], flow: [{ t: "Ledger connected", d: "live feed, not a monthly export" }, { t: "Metrics modelled", d: "cash, runway, margin, ageing" }, { t: "Dashboard published", d: "one link, always current" }, { t: "Board pack export", d: "same numbers, print-ready" }] },
+      { title: "AI Agents & Integrations", body: "Document extraction, classification and drafting agents that sit inside your finance workflow, with a human approving the output.", tags: ["Doc extraction", "Classification", "Human-in-loop"], flow: [{ t: "Documents ingested", d: "invoices, statements, contracts" }, { t: "Extracted & classified", d: "fields read, coded, matched" }, { t: "Human approves", d: "nothing posts unreviewed" }, { t: "Written back", d: "straight into the ledger" }] },
+    ];
+    const services = raw.map((r, i) => {
+      const open = s.active === i;
+      return Object.assign({}, r, {
+        no: "0" + (i + 1),
+        mark: open ? "—" : "+",
+        titleColor: open ? "oklch(0.86 0.14 175)" : "#f2f2f0",
+        panelStyle: "overflow:hidden;transition:max-height .55s cubic-bezier(.16,1,.3,1),opacity .45s ease;max-height:" + (open ? "760px" : "0px") + ";opacity:" + (open ? "1" : "0"),
+        enter: () => this.setState({ active: i })
+      });
+    });
+    const rows = [
+      { date: "02 AUG", desc: "Stripe payout · SGD settlement", amt: "12,480.00" },
+      { date: "02 AUG", desc: "AWS Singapore · invoice 8841", amt: "1,905.44" },
+      { date: "01 AUG", desc: "Client retainer · Lim & Co", amt: "3,200.00" },
+      { date: "01 AUG", desc: "CPF contribution · July", amt: "4,617.90" },
+      { date: "31 JUL", desc: "Office rent · Tanjong Pagar", amt: "5,800.00" },
+      { date: "31 JUL", desc: "GST input claim · Q2", amt: "2,143.05" },
+      { date: "30 JUL", desc: "Grab · client meetings", amt: "86.20" }
+    ].map((r, i) => Object.assign({}, r, {
+      style: "display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid #101011;animation:bwLedgerRow 5.4s ease-in-out " + (i * 0.34).toFixed(2) + "s infinite both",
+      tick: "flex:none;width:16px;text-align:center;font-size:12px;color:oklch(0.86 0.14 175);animation:bwTickPop 5.4s ease-in-out " + (i * 0.34).toFixed(2) + "s infinite both"
+    }));
+
+    return {
+      rows,
+      posted: s.posted,
+      unmatched: s.unmatched,
+      year: new Date().getFullYear(),
+      onSubmit: this.onSubmit,
+      submitLabel: s.sending ? "Sending…" : "Send enquiry",
+      statusText: s.status || "We reply within one business day. Your details stay with us.",
+      statusColor: s.status ? (s.error ? "oklch(0.72 0.16 25)" : "oklch(0.86 0.14 175)") : "#7d7d76",
+      services,
+      stats: [
+        { k: "80%", v: "of manual data entry removed in a typical engagement" },
+        { k: "3 days", v: "typical month-end close once the ledger is automated" },
+        { k: "24 hrs", v: "to incorporate a Pte Ltd with ACRA, documents ready" },
+        { k: "1 team", v: "accounting, secretarial and engineering under one roof" }
+      ],
+      plans: [
+        { name: "Starter", price: "S$450", unit: "/ month", featured: false, for: "Newly incorporated companies with light transaction volume.", items: ["Monthly bookkeeping & reconciliation", "Automated bank feeds and receipt capture", "Unaudited financial statements", "GST-ready records", "Email support"], cta: "Start here" },
+        { name: "Growth", price: "S$1,200", unit: "/ month", featured: true, for: "Operating businesses that want the close automated end to end.", items: ["Everything in Starter", "Corporate secretarial & ACRA filings", "One automated workflow built per quarter", "Live cash & margin dashboard", "Monthly review call"], cta: "Most teams pick this" },
+        { name: "Automate", price: "Custom", unit: "scoped", featured: false, for: "Finance teams rebuilding how the work actually runs.", items: ["Everything in Growth", "Full process mapping & rebuild", "AI document and approval agents", "Custom BI and board reporting", "Priority response, named lead"], cta: "Scope a project" }
+      ],
+      quotes: [
+        { no: "01", text: "Placeholder testimonial — replace with a real client quote about the month-end close going from two weeks to a few days.", who: "Client name, Role — Company" },
+        { no: "02", text: "Placeholder testimonial — replace with a real quote about incorporation and getting compliant without chasing paperwork.", who: "Client name, Role — Company" },
+        { no: "03", text: "Placeholder testimonial — replace with a real quote about seeing cash and runway live instead of monthly.", who: "Client name, Role — Company" }
+      ]
+    };
+  }
+}
+</script>
+
+
+</body></html>

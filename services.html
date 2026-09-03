@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What We Offer — Balance Works LLP</title>
+<link rel="icon" type="image/png" href="assets/logo-mark.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; background: #000; }
+  body { margin: 0; background: #000; color: #f2f2f0; font-family: 'Archivo', Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  a { color: #f2f2f0; text-decoration: none; }
+  a:hover { color: oklch(0.9 0.14 175); }
+  ::selection { background: oklch(0.86 0.14 175); color: #000; }
+  input, textarea, select, button { font-family: inherit; }
+  input::placeholder, textarea::placeholder { color: #7d7d76; }
+  @keyframes bwLine { from { transform: translateY(105%); } to { transform: translateY(0); } }
+  @keyframes bwNoise { 0% { transform: translate(0,0); } 25% { transform: translate(-2%,1%); } 50% { transform: translate(1%,-2%); } 75% { transform: translate(-1%,-1%); } 100% { transform: translate(0,0); } }
+  @keyframes bwLedgerRow { 0% { opacity: 0; transform: translateY(10px); } 9% { opacity: 1; transform: translateY(0); } 86% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(-6px); } }
+  @keyframes bwTickPop { 0%, 22% { opacity: 0; transform: scale(0.4); } 32% { opacity: 1; transform: scale(1.25); } 40%, 100% { opacity: 1; transform: scale(1); } }
+  @keyframes bwScanBar { 0% { transform: translateY(-14px); opacity: 0; } 12% { opacity: 1; } 88% { opacity: 1; } 100% { transform: translateY(330px); opacity: 0; } }
+  @media (max-width: 1150px) {
+    .bw-connector { display: none !important; }
+    .bw-flow-row { flex-direction: column !important; align-items: stretch !important; }
+    .bw-flow-col { max-width: none !important; flex: 1 1 auto !important; }
+  }
+  @keyframes bwFlowDot { 0% { transform: translateX(0); opacity: 0; } 15% { opacity: 1; } 85% { opacity: 1; } 100% { transform: translateX(58px); opacity: 0; } }
+  @keyframes bwFieldFill { 0%, 12% { transform: scaleX(0); } 40%, 100% { transform: scaleX(1); } }
+  @keyframes bwHubSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  @keyframes bwHubGlow { 0%, 100% { opacity: 0.35; transform: scale(1); } 50% { opacity: 0.8; transform: scale(1.06); } }
+  @keyframes bwSparkDraw { from { stroke-dashoffset: 420; } to { stroke-dashoffset: 0; } }
+  @keyframes bwRailH { 0% { left: -70px; } 100% { left: 100%; } }
+  @keyframes bwScrollCue { 0% { transform: translateY(-100%); } 100% { transform: translateY(100%); } }
+  @keyframes svcMarquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @keyframes svcDrop { 0%, 8% { transform: translate(0,0); opacity: 1; } 34%, 100% { transform: translate(0, 74px); opacity: 0; } }
+  @keyframes svcZone { 0%, 8% { border-color: #26261f; color: #7d7d76; } 30% { border-color: oklch(0.86 0.14 175); color: oklch(0.86 0.14 175); } 60%, 100% { border-color: #26261f; color: #7d7d76; } }
+  @keyframes svcRowIn { 0%, 30% { opacity: 0; transform: translateY(8px); } 46%, 92% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; } }
+  @keyframes svcTickIn { 0%, 62% { opacity: 0; transform: scale(0.5); } 72% { opacity: 1; transform: scale(1.15); } 80%, 94% { opacity: 1; transform: scale(1); } 100% { opacity: 0; } }
+  @keyframes svcTabA { 0%, 46% { background: oklch(0.86 0.14 175); color: #000; border-color: oklch(0.86 0.14 175); } 50%, 96% { background: transparent; color: #8d8d84; border-color: #26261f; } 100% { background: oklch(0.86 0.14 175); color: #000; border-color: oklch(0.86 0.14 175); } }
+  @keyframes svcTabB { 0%, 46% { background: transparent; color: #8d8d84; border-color: #26261f; } 50%, 96% { background: oklch(0.86 0.14 175); color: #000; border-color: oklch(0.86 0.14 175); } 100% { background: transparent; color: #8d8d84; border-color: #26261f; } }
+  @keyframes svcPanelA { 0%, 42% { opacity: 1; transform: translateY(0); } 48%, 96% { opacity: 0; transform: translateY(-8px); position: absolute; } 100% { opacity: 1; transform: translateY(0); } }
+  @keyframes svcPanelB { 0%, 44% { opacity: 0; transform: translateY(8px); } 52%, 96% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; } }
+  @keyframes svcBar { 0% { transform: scaleY(0); } 30%, 100% { transform: scaleY(1); } }
+  @keyframes svcDot { 0%, 6% { background: #0a0a09; color: #7d7d76; border-color: #26261f; } 14%, 100% { background: oklch(0.86 0.14 175); color: #000; border-color: oklch(0.86 0.14 175); } }
+  @keyframes svcLine { 0% { transform: scaleX(0); } 22%, 100% { transform: scaleX(1); } }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+  @media (hover: none) { #bw-cursor { display: none !important; } }
+</style>
+</helmet>
+
+
+
+<div style="position: relative; background: #000;">
+
+  <div id="bw-cursor" aria-hidden="true" style="position: fixed; top: 0; left: 0; width: 14px; height: 14px; border-radius: 50%; background: oklch(0.86 0.14 175); pointer-events: none; z-index: 999; mix-blend-mode: difference; transform: translate3d(-100px,-100px,0); transition: width .35s cubic-bezier(.2,.8,.2,1), height .35s cubic-bezier(.2,.8,.2,1), opacity .3s ease; will-change: transform;"></div>
+
+  <div id="bw-ring" aria-hidden="true" style="position: fixed; top: 0; left: 0; width: 40px; height: 40px; border-radius: 50%; border: 1px solid rgba(95,227,207,0.5); pointer-events: none; z-index: 998; display: grid; place-items: center; transform: translate3d(-200px,-200px,0); transition: width .45s cubic-bezier(.2,.8,.2,1), height .45s cubic-bezier(.2,.8,.2,1), background-color .45s ease, border-color .45s ease, opacity .3s ease; will-change: transform;"><span id="bw-ring-label" style="font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: #000; opacity: 0; transition: opacity .3s ease; white-space: nowrap;"></span></div>
+
+  <div aria-hidden="true" style="position: fixed; inset: -10%; z-index: 1; pointer-events: none; opacity: 0.045; background-image: repeating-linear-gradient(0deg, #fff 0 1px, transparent 1px 3px); animation: bwNoise 1.2s steps(2) infinite;"></div>
+
+  <header style="position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(0,0,0,0.62); backdrop-filter: blur(16px); border-bottom: 1px solid #131311;">
+    <div style="padding: 18px 22px; display: flex; flex-wrap: wrap; row-gap: 12px; column-gap: 20px; align-items: center; justify-content: space-between; font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; letter-spacing: 0.14em; text-transform: uppercase; color: #fff;">
+      <a href="index.html" data-cursor="" style="display: flex; align-items: center; gap: 11px; color: #fff; font-weight: 500;"><img src="assets/logo-mark.png" alt="" style="display: block; height: 24px; width: auto; flex: none;">Balance&nbsp;Works&nbsp;LLP</a>
+      <div style="display: flex; flex-wrap: wrap; gap: 14px 22px;">
+        <a href="index.html" data-cursor="" style="color: #fff;">Home</a>
+        <a href="services.html" data-cursor="" style="color: oklch(0.86 0.14 175);">Services</a>
+        <a href="about.html" data-cursor="" style="color: #fff;">About&nbsp;Us</a>
+        <a href="pricing.html" data-cursor="" style="color: #fff;">Pricing</a>
+        <a href="contact.html" data-cursor="" style="color: #fff;">Contact</a>
+      </div>
+    </div>
+  </header>
+
+  <section id="services" style="position: relative; z-index: 2; padding: 150px 34px 30px;">
+    <div data-reveal="" style="display: flex; align-items: center; gap: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; letter-spacing: 0.16em; text-transform: uppercase; color: #7d7d76;">
+      <span aria-hidden="true" style="width: 7px; height: 7px; border-radius: 50%; background: oklch(0.86 0.14 175); flex: none;"></span>What we offer
+    </div>
+    <h1 data-reveal="" style="margin: 26px 0 0; font-size: clamp(34px, 6.2vw, 88px); font-weight: 700; letter-spacing: -0.045em; line-height: 0.98; max-width: 20ch; text-wrap: balance;">Accounting, run on automated workflows.</h1>
+    <p data-reveal="" style="margin: 32px 0 0; max-width: 62ch; font-size: 17px; line-height: 1.65; color: #9a9a91; text-wrap: pretty;">Every service below sits on the same idea: use AI to remove manual, repetitive work from accounting processes, so the time saved goes into accuracy, reporting and business insight.</p>
+  </section>
+
+  <div aria-hidden="true" style="position: relative; z-index: 2; margin-top: 60px; padding: 16px 0; border-top: 1px solid #1c1c1a; border-bottom: 1px solid #1c1c1a; overflow: hidden;">
+    <div style="display: flex; width: max-content; gap: 22px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #7d7d76; animation: svcMarquee 34s linear infinite;"><span style="display: inline-flex; align-items: center; gap: 22px; padding-right: 22px;">Bank Feed Reconciliation<span aria-hidden="true" style="width: 5px; height: 5px; border-radius: 50%; background: oklch(0.86 0.14 175);"></span></span><span style="display: inline-flex; align-items: center; gap: 22px; padding-right: 22px;">Transaction Categorisation<span aria-hidden="true" style="width: 5px; height: 5px; border-radius: 50%; background: oklch(0.86 0.14 175);"></span></span><span style="display: inline-flex; align-items: center; gap: 22px; padding-right: 22px;">Management Accounts<span aria-hidden="true" style="width: 5px; height: 5px; border-radius: 50%; background: oklch(0.86 0.14 175);"></span></span><span style="display: inline-flex; align-items: center; gap: 22px; padding-right: 22px;">Trend Analysis<span aria-hidden="true" style="width: 5px; height: 5px; border-radius: 50%; background: oklch(0.86 0.14 175);"></span></span><span style="display: inline-flex; align-items: center; gap: 22px; padding-right: 22px;">Process Automation<span aria-hidden="true" style="width: 5px; height: 5px; border-radius: 50%; background: oklch(0.86 0.14 175);"></span></span><span style="display: inline-flex; align-items: center; gap: 22px; padding-right: 22px;">AI Tool Implementation<span aria-hidden="true" style="width: 5px; height: 5px; border-radius: 50%; background: oklch(0.86 0.14 175);"></span></span><span style="display: inline-flex; align-items: center; gap: 22px; padding-right: 22px;">Bank Feed Reconciliation<span aria-hidden="true" style="width: 5px; height: 5px; border-radius: 50%; background: oklch(0.86 0.14 175);"></span></span><span style="display: inline-flex; align-items: center; gap: 22px; padding-right: 22px;">Transaction Categorisation<span aria-hidden="true" style="width: 5px; height: 5px; border-radius: 50%; background: oklch(0.86 0.14 175);"></span></span><span style="display: inline-flex; align-items: center; gap: 22px; padding-right: 22px;">Management Accounts<span aria-hidden="true" style="width: 5px; height: 5px; border-radius: 50%; background: oklch(0.86 0.14 175);"></span></span><span style="display: inline-flex; align-items: center; gap: 22px; padding-right: 22px;">Trend Analysis<span aria-hidden="true" style="width: 5px; height: 5px; border-radius: 50%; background: oklch(0.86 0.14 175);"></span></span><span style="display: inline-flex; align-items: center; gap: 22px; padding-right: 22px;">Process Automation<span aria-hidden="true" style="width: 5px; height: 5px; border-radius: 50%; background: oklch(0.86 0.14 175);"></span></span><span style="display: inline-flex; align-items: center; gap: 22px; padding-right: 22px;">AI Tool Implementation<span aria-hidden="true" style="width: 5px; height: 5px; border-radius: 50%; background: oklch(0.86 0.14 175);"></span></span></div>
+  </div>
+
+  <section style="position: relative; z-index: 2; padding: 20px 34px 40px;">
+      <div data-reveal="" data-spot="" data-cursor="" style="display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 34px; padding: 60px 0; border-top: 1px solid #1c1c1a; transition: background-image .3s ease;">
+        <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 18px;">
+          <div style="width: 52px; height: 52px; border: 1px solid #26261f; display: flex; align-items: center; justify-content: center;"><svg viewBox="0 0 24 24" style="width: 22px; height: 22px;" aria-hidden="true" fill="none" stroke="oklch(0.86 0.14 175)" stroke-width="1.5" stroke-linecap="round"><rect x="4" y="3" width="16" height="18" rx="2"></rect><line x1="8" y1="8" x2="16" y2="8"></line><line x1="8" y1="12" x2="16" y2="12"></line><line x1="8" y1="16" x2="13" y2="16"></line></svg></div>
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.12em; color: #7d7d76;">01</div>
+        </div>
+        <div>
+          <h3 style="margin: 0; font-size: clamp(22px, 3vw, 34px); font-weight: 600; letter-spacing: -0.03em; line-height: 1.1;">Automated Bookkeeping</h3>
+          <p style="margin: 20px 0 0; max-width: 62ch; font-size: 16.5px; line-height: 1.65; color: #9a9a91; text-wrap: pretty;">We set up bookkeeping workflows that use AI tools to handle the repetitive parts of the process — transaction categorisation, bank feed matching and routine data entry — cutting down manual effort while keeping records accurate and audit-ready.</p>
+          <ul style="margin: 24px 0 0; padding: 0; list-style: none; display: grid; gap: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; letter-spacing: 0.02em; color: #8d8d84;">
+            <li style="display: flex; align-items: baseline; gap: 12px;"><span aria-hidden="true" style="color: oklch(0.86 0.14 175); flex: none;">—</span><span>Bank feed reconciliation</span></li>
+            <li style="display: flex; align-items: baseline; gap: 12px;"><span aria-hidden="true" style="color: oklch(0.86 0.14 175); flex: none;">—</span><span>Transaction categorisation</span></li>
+            <li style="display: flex; align-items: baseline; gap: 12px;"><span aria-hidden="true" style="color: oklch(0.86 0.14 175); flex: none;">—</span><span>Accounts payable / receivable tracking</span></li>
+            <li style="display: flex; align-items: baseline; gap: 12px;"><span aria-hidden="true" style="color: oklch(0.86 0.14 175); flex: none;">—</span><span>Day-to-day ledger maintenance</span></li>
+          </ul>
+          <div style="margin-top: 34px; border: 1px solid #1c1c1a; background: #0a0a09; padding: 22px 22px 26px;">
+            <span style="display: block; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #7d7d76;">See it in action — invoice to journal entry</span>
+            <div style="margin-top: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 22px; align-items: start;">
+              <div style="position: relative; height: 150px;">
+                <div style="display: inline-flex; align-items: center; gap: 10px; padding: 11px 14px; border: 1px solid #26261f; background: #000; font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: #d8d8d2; animation: svcDrop 5.4s cubic-bezier(.16,1,.3,1) infinite both;">
+                  <svg viewBox="0 0 24 24" style="width: 15px; height: 15px;" aria-hidden="true" fill="none" stroke="oklch(0.86 0.14 175)" stroke-width="1.5" stroke-linecap="round"><path d="M6 2h9l3 3v17H6z"></path><path d="M15 2v3h3"></path><line x1="9" y1="11" x2="15" y2="11"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg>
+                  Invoice #2291
+                </div>
+                <div style="position: absolute; left: 0; right: 0; bottom: 0; padding: 20px 14px; border: 1px dashed #26261f; text-align: center; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #7d7d76; animation: svcZone 5.4s ease-in-out infinite both;">Drop invoice here</div>
+              </div>
+              <div style="border-left: 1px solid #1c1c1a; padding-left: 22px; display: grid; gap: 12px;">
+                <div style="display: flex; justify-content: space-between; gap: 16px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #d8d8d2; animation: svcRowIn 5.4s ease-in-out infinite both;"><span>Dr · Office Supplies</span><span>$482.00</span></div>
+                <div style="display: flex; justify-content: space-between; gap: 16px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #d8d8d2; animation: svcRowIn 5.4s ease-in-out .28s infinite both;"><span>Cr · Accounts Payable</span><span>$482.00</span></div>
+                <div style="display: flex; align-items: center; gap: 9px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: oklch(0.86 0.14 175); animation: svcTickIn 5.4s ease-in-out infinite both;">
+                  <svg viewBox="0 0 24 24" style="width: 14px; height: 14px;" aria-hidden="true" fill="none" stroke="oklch(0.86 0.14 175)" stroke-width="1.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  Journal entry created
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-reveal="" data-spot="" data-cursor="" style="display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 34px; padding: 60px 0; border-top: 1px solid #1c1c1a; transition: background-image .3s ease;">
+        <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 18px;">
+          <div style="width: 52px; height: 52px; border: 1px solid #26261f; display: flex; align-items: center; justify-content: center;"><svg viewBox="0 0 24 24" style="width: 22px; height: 22px;" aria-hidden="true" fill="none" stroke="oklch(0.86 0.14 175)" stroke-width="1.5" stroke-linecap="round"><line x1="4" y1="20" x2="20" y2="20"></line><rect x="6" y="14" width="3" height="6"></rect><rect x="11" y="9" width="3" height="11"></rect><rect x="16" y="5" width="3" height="15"></rect></svg></div>
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.12em; color: #7d7d76;">02</div>
+        </div>
+        <div>
+          <h3 style="margin: 0; font-size: clamp(22px, 3vw, 34px); font-weight: 600; letter-spacing: -0.03em; line-height: 1.1;">Financial Reporting</h3>
+          <p style="margin: 20px 0 0; max-width: 62ch; font-size: 16.5px; line-height: 1.65; color: #9a9a91; text-wrap: pretty;">Timely, accurate financial statements built on data that's already been cleaned and organised through automated workflows — reducing the lag between month-end and having reports in hand.</p>
+          <ul style="margin: 24px 0 0; padding: 0; list-style: none; display: grid; gap: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; letter-spacing: 0.02em; color: #8d8d84;">
+            <li style="display: flex; align-items: baseline; gap: 12px;"><span aria-hidden="true" style="color: oklch(0.86 0.14 175); flex: none;">—</span><span>Monthly / periodic management accounts</span></li>
+            <li style="display: flex; align-items: baseline; gap: 12px;"><span aria-hidden="true" style="color: oklch(0.86 0.14 175); flex: none;">—</span><span>Financial statement preparation</span></li>
+            <li style="display: flex; align-items: baseline; gap: 12px;"><span aria-hidden="true" style="color: oklch(0.86 0.14 175); flex: none;">—</span><span>Reporting workflow set-up</span></li>
+          </ul>
+          <div style="margin-top: 34px; border: 1px solid #1c1c1a; background: #0a0a09; padding: 22px 22px 26px;">
+            <span style="display: block; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #7d7d76;">See it in action — reports, generated automatically</span>
+            <div style="margin-top: 20px;">
+              <div style="display: flex; gap: 10px;">
+                <span style="padding: 8px 14px; border: 1px solid #26261f; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; animation: svcTabA 9s ease-in-out infinite both;">Profit &amp; Loss</span>
+                <span style="padding: 8px 14px; border: 1px solid #26261f; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; animation: svcTabB 9s ease-in-out infinite both;">Balance Sheet</span>
+              </div>
+              <div style="position: relative; margin-top: 18px; min-height: 176px;">
+                <div style="animation: svcPanelA 9s ease-in-out infinite both;">
+                  <div style="display: flex; justify-content: space-between; gap: 16px; padding: 9px 0; border-bottom: 1px solid #131311; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #9a9a91; "><span>Revenue</span><span>$128,400</span></div>
+                  <div style="display: flex; justify-content: space-between; gap: 16px; padding: 9px 0; border-bottom: 1px solid #131311; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #9a9a91; "><span>Cost of Sales</span><span>($52,100)</span></div>
+                  <div style="display: flex; justify-content: space-between; gap: 16px; padding: 9px 0; border-bottom: 1px solid #131311; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #f2f2f0; font-weight: 500;"><span>Gross Profit</span><span>$76,300</span></div>
+                  <div style="display: flex; justify-content: space-between; gap: 16px; padding: 9px 0; border-bottom: 1px solid #131311; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #9a9a91; "><span>Operating Expenses</span><span>($35,200)</span></div>
+                  <div style="display: flex; justify-content: space-between; gap: 16px; padding: 9px 0; border-bottom: 1px solid #131311; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #f2f2f0; font-weight: 500;"><span>Net Income</span><span>$41,100</span></div>
+                </div>
+                <div style="position: absolute; inset: 0; animation: svcPanelB 9s ease-in-out infinite both;">
+                  <div style="display: flex; justify-content: space-between; gap: 16px; padding: 9px 0; border-bottom: 1px solid #131311; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #9a9a91; "><span>Total Assets</span><span>$412,600</span></div>
+                  <div style="display: flex; justify-content: space-between; gap: 16px; padding: 9px 0; border-bottom: 1px solid #131311; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #9a9a91; "><span>Total Liabilities</span><span>$158,900</span></div>
+                  <div style="display: flex; justify-content: space-between; gap: 16px; padding: 9px 0; border-bottom: 1px solid #131311; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #f2f2f0; font-weight: 500;"><span>Shareholders' Equity</span><span>$253,700</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-reveal="" data-spot="" data-cursor="" style="display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 34px; padding: 60px 0; border-top: 1px solid #1c1c1a; transition: background-image .3s ease;">
+        <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 18px;">
+          <div style="width: 52px; height: 52px; border: 1px solid #26261f; display: flex; align-items: center; justify-content: center;"><svg viewBox="0 0 24 24" style="width: 22px; height: 22px;" aria-hidden="true" fill="none" stroke="oklch(0.86 0.14 175)" stroke-width="1.5" stroke-linecap="round"><circle cx="10" cy="10" r="6"></circle><line x1="14.5" y1="14.5" x2="20" y2="20"></line><polyline points="7,11 9,8 11,10 13,6"></polyline></svg></div>
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.12em; color: #7d7d76;">03</div>
+        </div>
+        <div>
+          <h3 style="margin: 0; font-size: clamp(22px, 3vw, 34px); font-weight: 600; letter-spacing: -0.03em; line-height: 1.1;">Financial Analysis &amp; Business Insights</h3>
+          <p style="margin: 20px 0 0; max-width: 62ch; font-size: 16.5px; line-height: 1.65; color: #9a9a91; text-wrap: pretty;">Beyond producing the numbers, we work with clients to read them — analysing trends and financial data to surface insights that inform business decisions.</p>
+          <ul style="margin: 24px 0 0; padding: 0; list-style: none; display: grid; gap: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; letter-spacing: 0.02em; color: #8d8d84;">
+            <li style="display: flex; align-items: baseline; gap: 12px;"><span aria-hidden="true" style="color: oklch(0.86 0.14 175); flex: none;">—</span><span>Financial data analysis</span></li>
+            <li style="display: flex; align-items: baseline; gap: 12px;"><span aria-hidden="true" style="color: oklch(0.86 0.14 175); flex: none;">—</span><span>Trend and variance review</span></li>
+            <li style="display: flex; align-items: baseline; gap: 12px;"><span aria-hidden="true" style="color: oklch(0.86 0.14 175); flex: none;">—</span><span>Business insight reporting</span></li>
+          </ul>
+          <div style="margin-top: 34px; border: 1px solid #1c1c1a; background: #0a0a09; padding: 22px 22px 26px;">
+            <span style="display: block; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #7d7d76;">See it in action — actual vs. budget, at a glance</span>
+            <div style="margin-top: 22px; display: flex; flex-wrap: wrap; gap: 40px; align-items: flex-end;">
+              <div style="display: flex; gap: 34px;">
+                <div style="display: grid; gap: 12px; justify-items: center;">
+                  <div style="display: flex; align-items: flex-end; gap: 7px; height: 120px;">
+                    <div style="width: 22px; height: 78%; background: oklch(0.86 0.14 175); transform-origin: bottom; animation: svcBar 1.6s cubic-bezier(.16,1,.3,1) 0s both;"></div>
+                    <div style="width: 22px; height: 64%; background: #26261f; transform-origin: bottom; animation: svcBar 1.6s cubic-bezier(.16,1,.3,1) 0.12s both;"></div>
+                  </div>
+                  <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8d8d84;">Revenue</span>
+                </div>
+                <div style="display: grid; gap: 12px; justify-items: center;">
+                  <div style="display: flex; align-items: flex-end; gap: 7px; height: 120px;">
+                    <div style="width: 22px; height: 45%; background: oklch(0.86 0.14 175); transform-origin: bottom; animation: svcBar 1.6s cubic-bezier(.16,1,.3,1) 0.18s both;"></div>
+                    <div style="width: 22px; height: 58%; background: #26261f; transform-origin: bottom; animation: svcBar 1.6s cubic-bezier(.16,1,.3,1) 0.3s both;"></div>
+                  </div>
+                  <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8d8d84;">Marketing</span>
+                </div>
+                <div style="display: grid; gap: 12px; justify-items: center;">
+                  <div style="display: flex; align-items: flex-end; gap: 7px; height: 120px;">
+                    <div style="width: 22px; height: 66%; background: oklch(0.86 0.14 175); transform-origin: bottom; animation: svcBar 1.6s cubic-bezier(.16,1,.3,1) 0.36s both;"></div>
+                    <div style="width: 22px; height: 70%; background: #26261f; transform-origin: bottom; animation: svcBar 1.6s cubic-bezier(.16,1,.3,1) 0.48s both;"></div>
+                  </div>
+                  <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8d8d84;">Payroll</span>
+                </div>
+              </div>
+              <div style="display: grid; gap: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8d8d84;">
+                <span style="display: flex; align-items: center; gap: 9px;"><span style="width: 9px; height: 9px; background: oklch(0.86 0.14 175);"></span>Actual</span>
+                <span style="display: flex; align-items: center; gap: 9px;"><span style="width: 9px; height: 9px; background: #26261f;"></span>Budget</span>
+                <span style="color: #6d6d66;">Illustrative example</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-reveal="" data-spot="" data-cursor="" style="display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 34px; padding: 60px 0; border-top: 1px solid #1c1c1a; transition: background-image .3s ease;">
+        <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 18px;">
+          <div style="width: 52px; height: 52px; border: 1px solid #26261f; display: flex; align-items: center; justify-content: center;"><svg viewBox="0 0 24 24" style="width: 22px; height: 22px;" aria-hidden="true" fill="none" stroke="oklch(0.86 0.14 175)" stroke-width="1.5" stroke-linecap="round"><circle cx="5" cy="6" r="1.6"></circle><circle cx="19" cy="6" r="1.6"></circle><circle cx="12" cy="13" r="1.6"></circle><circle cx="6" cy="19" r="1.6"></circle><circle cx="18" cy="19" r="1.6"></circle><line x1="5" y1="6" x2="12" y2="13"></line><line x1="19" y1="6" x2="12" y2="13"></line><line x1="12" y1="13" x2="6" y2="19"></line><line x1="12" y1="13" x2="18" y2="19"></line></svg></div>
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.12em; color: #7d7d76;">04</div>
+        </div>
+        <div>
+          <h3 style="margin: 0; font-size: clamp(22px, 3vw, 34px); font-weight: 600; letter-spacing: -0.03em; line-height: 1.1;">Workflow Automation &amp; Process Optimisation</h3>
+          <p style="margin: 20px 0 0; max-width: 62ch; font-size: 16.5px; line-height: 1.65; color: #9a9a91; text-wrap: pretty;">We look at how your accounting processes currently run, identify where manual work can be replaced with automation, and help implement AI-driven tools to streamline the workflow end to end.</p>
+          <ul style="margin: 24px 0 0; padding: 0; list-style: none; display: grid; gap: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; letter-spacing: 0.02em; color: #8d8d84;">
+            <li style="display: flex; align-items: baseline; gap: 12px;"><span aria-hidden="true" style="color: oklch(0.86 0.14 175); flex: none;">—</span><span>Process mapping &amp; review</span></li>
+            <li style="display: flex; align-items: baseline; gap: 12px;"><span aria-hidden="true" style="color: oklch(0.86 0.14 175); flex: none;">—</span><span>AI tool selection &amp; set-up</span></li>
+            <li style="display: flex; align-items: baseline; gap: 12px;"><span aria-hidden="true" style="color: oklch(0.86 0.14 175); flex: none;">—</span><span>Workflow automation implementation</span></li>
+          </ul>
+          <div style="margin-top: 34px; border: 1px solid #1c1c1a; background: #0a0a09; padding: 22px 22px 26px;">
+            <span style="display: block; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #7d7d76;">See it in action — your workflow, mapped and running</span>
+            <div style="margin-top: 24px; display: flex; flex-wrap: wrap; align-items: flex-start; gap: 10px;">
+                <div style="display: grid; gap: 12px; justify-items: center; text-align: center; min-width: 96px;">
+                  <span style="width: 34px; height: 34px; border-radius: 50%; border: 1px solid #26261f; background: #0a0a09; display: grid; place-items: center; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #7d7d76; animation: svcDot 9s ease-in-out 0.0s infinite both;">1</span>
+                  <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; line-height: 1.4; color: #8d8d84;">Invoice received</span>
+                </div>
+                <div aria-hidden="true" style="flex: 1 1 30px; min-width: 26px; height: 1px; background: #1c1c1a; margin-top: 17px;"><div style="height: 1px; background: oklch(0.86 0.14 175); transform-origin: left; animation: svcLine 9s ease-in-out 0.6s infinite both;"></div></div>
+                <div style="display: grid; gap: 12px; justify-items: center; text-align: center; min-width: 96px;">
+                  <span style="width: 34px; height: 34px; border-radius: 50%; border: 1px solid #26261f; background: #0a0a09; display: grid; place-items: center; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #7d7d76; animation: svcDot 9s ease-in-out 1.6s infinite both;">2</span>
+                  <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; line-height: 1.4; color: #8d8d84;">Data extracted</span>
+                </div>
+                <div aria-hidden="true" style="flex: 1 1 30px; min-width: 26px; height: 1px; background: #1c1c1a; margin-top: 17px;"><div style="height: 1px; background: oklch(0.86 0.14 175); transform-origin: left; animation: svcLine 9s ease-in-out 2.2s infinite both;"></div></div>
+                <div style="display: grid; gap: 12px; justify-items: center; text-align: center; min-width: 96px;">
+                  <span style="width: 34px; height: 34px; border-radius: 50%; border: 1px solid #26261f; background: #0a0a09; display: grid; place-items: center; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #7d7d76; animation: svcDot 9s ease-in-out 3.2s infinite both;">3</span>
+                  <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; line-height: 1.4; color: #8d8d84;">Approval routed</span>
+                </div>
+                <div aria-hidden="true" style="flex: 1 1 30px; min-width: 26px; height: 1px; background: #1c1c1a; margin-top: 17px;"><div style="height: 1px; background: oklch(0.86 0.14 175); transform-origin: left; animation: svcLine 9s ease-in-out 3.8s infinite both;"></div></div>
+                <div style="display: grid; gap: 12px; justify-items: center; text-align: center; min-width: 96px;">
+                  <span style="width: 34px; height: 34px; border-radius: 50%; border: 1px solid #26261f; background: #0a0a09; display: grid; place-items: center; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #7d7d76; animation: svcDot 9s ease-in-out 4.8s infinite both;">4</span>
+                  <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; line-height: 1.4; color: #8d8d84;">Payment scheduled</span>
+                </div>
+                <div aria-hidden="true" style="flex: 1 1 30px; min-width: 26px; height: 1px; background: #1c1c1a; margin-top: 17px;"><div style="height: 1px; background: oklch(0.86 0.14 175); transform-origin: left; animation: svcLine 9s ease-in-out 5.4s infinite both;"></div></div>
+                <div style="display: grid; gap: 12px; justify-items: center; text-align: center; min-width: 96px;">
+                  <span style="width: 34px; height: 34px; border-radius: 50%; border: 1px solid #26261f; background: #0a0a09; display: grid; place-items: center; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #7d7d76; animation: svcDot 9s ease-in-out 6.4s infinite both;">5</span>
+                  <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; line-height: 1.4; color: #8d8d84;">Ledger updated</span>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </section>
+
+  <section style="position: relative; z-index: 2; padding: 100px 34px 110px; border-top: 1px solid #1c1c1a; text-align: center;">
+    <div data-reveal="" style="display: inline-flex; align-items: center; gap: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; letter-spacing: 0.16em; text-transform: uppercase; color: #7d7d76;">
+      <span aria-hidden="true" style="width: 7px; height: 7px; border-radius: 50%; background: oklch(0.86 0.14 175); flex: none;"></span>Get started
+    </div>
+    <h2 data-reveal="" style="margin: 26px auto 0; max-width: 24ch; font-size: clamp(28px, 4.6vw, 62px); font-weight: 700; letter-spacing: -0.04em; line-height: 1.02; text-wrap: balance;">Tell us about your current accounting process.</h2>
+    <p data-reveal="" style="margin: 26px auto 0; max-width: 56ch; font-size: 16.5px; line-height: 1.65; color: #9a9a91; text-wrap: pretty;">We'll take a look at where things stand today and where automation could realistically make a difference.</p>
+    <a href="contact.html" data-reveal="" data-cursor="" data-magnetic="" data-cursor-label="enquire" style="display: inline-flex; align-items: center; gap: 12px; margin-top: 38px; padding: 16px 26px; border: 1px solid oklch(0.86 0.14 175); border-radius: 999px; font-size: 14.5px; font-weight: 600; color: oklch(0.86 0.14 175);">Send an enquiry <span aria-hidden="true">→</span></a>
+  </section>
+
+  <footer style="position: relative; z-index: 2; border-top: 1px solid #1c1c1a;">
+    <div style="padding: 70px 34px 60px; display: flex; justify-content: center;">
+      <img src="assets/logo-full.png" alt="Balance Works LLP" data-reveal="" style="display: block; width: 210px; max-width: 62vw; height: auto;">
+    </div>
+    <div style="border-top: 1px solid #1c1c1a; padding: 30px 34px; display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #7d7d76;">
+      <span>© {{ year }} Balance Works LLP · Singapore</span>
+      <span>Automating the ledger. Balancing your life.</span>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script="" data-props="{&quot;formEndpointKey&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Contact form&quot;,&quot;label&quot;:&quot;Web3Forms access key (blank = mailto)&quot;}}">
+class Component extends DCLogic {
+  state = { status: "", error: false, sending: false, active: 0, posted: 128, unmatched: 3 };
+
+  componentDidMount() {
+    this._ticker = setInterval(() => this.setState((s) => ({
+      posted: s.posted + 1 + Math.floor(Math.random() * 3),
+      unmatched: Math.max(0, (s.unmatched + (Math.random() > 0.55 ? 1 : -1)) % 6)
+    })), 2600);
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const nodes = Array.from(document.querySelectorAll('[data-reveal]'));
+    if (!reduce) {
+      nodes.forEach((n, i) => {
+        n.style.opacity = '0';
+        n.style.transform = 'translateY(26px)';
+        const d = (i % 5) * 70;
+        n.style.transition = 'opacity .9s cubic-bezier(.16,1,.3,1) ' + d + 'ms, transform .9s cubic-bezier(.16,1,.3,1) ' + d + 'ms';
+      });
+      let fired = false;
+      const show = (n) => { n.style.opacity = '1'; n.style.transform = 'none'; n.dataset.revealed = '1'; };
+      const sweep = () => {
+        const vh = window.innerHeight || 800;
+        let pending = 0;
+        nodes.forEach((n) => {
+          if (n.dataset.revealed) return;
+          const b = n.getBoundingClientRect();
+          if (b.top < vh * 0.94 && b.bottom > 0) show(n); else pending++;
+        });
+        return pending;
+      };
+      sweep();
+      const io = new IntersectionObserver((es) => {
+        fired = true;
+        es.forEach((e) => {
+          if (e.isIntersecting) { show(e.target); io.unobserve(e.target); }
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -6% 0px' });
+      nodes.forEach((n) => io.observe(n));
+      this._io = io;
+      const onScroll = () => { if (sweep() === 0) { window.removeEventListener('scroll', onScroll); window.removeEventListener('resize', onScroll); } };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll);
+      this._revealCleanup = () => { window.removeEventListener('scroll', onScroll); window.removeEventListener('resize', onScroll); };
+      setTimeout(() => { if (!fired) nodes.forEach(show); }, 1600);
+    }
+
+    const cur = document.getElementById('bw-cursor');
+    const ring = document.getElementById('bw-ring');
+    const label = document.getElementById('bw-ring-label');
+    if (cur && ring && !reduce && window.matchMedia('(hover: hover)').matches) {
+      const GOLD = '95,227,207';
+      let tx = innerWidth / 2, ty = innerHeight / 2;
+      let dx = tx, dy = ty, rx = tx, ry = ty, vx = 0, vy = 0, raf;
+      let magnets = [], spotRow = null;
+
+      const refresh = () => { magnets = Array.from(document.querySelectorAll('[data-magnetic]')); };
+      refresh();
+
+      const move = (e) => {
+        vx = e.clientX - tx; vy = e.clientY - ty;
+        tx = e.clientX; ty = e.clientY;
+        if (spotRow) {
+          const b = spotRow.getBoundingClientRect();
+          spotRow.style.backgroundImage = 'radial-gradient(360px circle at ' + (e.clientX - b.left) + 'px ' + (e.clientY - b.top) + 'px, rgba(' + GOLD + ',0.09), transparent 72%)';
+        }
+        const g1 = document.getElementById('bw-glow1');
+        const g2 = document.getElementById('bw-glow2');
+        const px = (e.clientX / innerWidth - 0.5), py = (e.clientY / innerHeight - 0.5);
+        if (g1) g1.style.transform = 'translate3d(' + (px * 60) + 'px,' + (py * 40) + 'px,0)';
+        if (g2) g2.style.transform = 'translate3d(' + (px * -50) + 'px,' + (py * -34) + 'px,0)';
+      };
+
+      const tick = () => {
+        dx += (tx - dx) * 0.28; dy += (ty - dy) * 0.28;
+        rx += (tx - rx) * 0.11; ry += (ty - ry) * 0.11;
+        const speed = Math.min(Math.hypot(tx - rx, ty - ry), 90);
+        const stretch = 1 + speed / 260;
+        const ang = (Math.atan2(ty - ry, tx - rx) * 180) / Math.PI;
+        cur.style.transform = 'translate3d(' + (dx - cur.offsetWidth / 2) + 'px,' + (dy - cur.offsetHeight / 2) + 'px,0)';
+        ring.style.transform = 'translate3d(' + (rx - ring.offsetWidth / 2) + 'px,' + (ry - ring.offsetHeight / 2) + 'px,0) rotate(' + ang + 'deg) scale(' + stretch + ',' + (1 / stretch) + ')';
+        for (const m of magnets) {
+          const b = m.getBoundingClientRect();
+          const mx = b.left + b.width / 2, my = b.top + b.height / 2;
+          const d = Math.hypot(tx - mx, ty - my);
+          const pull = d < 170 ? (1 - d / 170) : 0;
+          m.style.transform = 'translate3d(' + ((tx - mx) * 0.14 * pull) + 'px,' + ((ty - my) * 0.14 * pull) + 'px,0)';
+        }
+        raf = requestAnimationFrame(tick);
+      };
+
+      const over = (e) => {
+        const t = e.target;
+        const hot = t.closest && t.closest('[data-cursor],a,button,input,textarea,select');
+        const txt = hot && hot.closest('[data-cursor-label]');
+        const big = !!hot;
+        cur.style.width = big ? '6px' : '14px';
+        cur.style.height = big ? '6px' : '14px';
+        ring.style.width = txt ? '76px' : big ? '58px' : '40px';
+        ring.style.height = txt ? '76px' : big ? '58px' : '40px';
+        ring.style.backgroundColor = txt ? 'rgba(' + GOLD + ',0.92)' : big ? 'rgba(' + GOLD + ',0.1)' : 'transparent';
+        ring.style.borderColor = big ? 'rgba(' + GOLD + ',0.9)' : 'rgba(' + GOLD + ',0.5)';
+        if (label) {
+          label.textContent = txt ? txt.getAttribute('data-cursor-label') : '';
+          label.style.opacity = txt ? '1' : '0';
+        }
+        const row = t.closest && t.closest('[data-spot]');
+        if (row !== spotRow) {
+          if (spotRow) spotRow.style.backgroundImage = 'none';
+          spotRow = row;
+        }
+      };
+
+      const leave = () => { cur.style.opacity = '0'; ring.style.opacity = '0'; };
+      const enter = () => { cur.style.opacity = '1'; ring.style.opacity = '1'; };
+
+      window.addEventListener('mousemove', move, { passive: true });
+      window.addEventListener('mouseover', over, { passive: true });
+      window.addEventListener('resize', refresh);
+      document.addEventListener('mouseleave', leave);
+      document.addEventListener('mouseenter', enter);
+      raf = requestAnimationFrame(tick);
+      this._cleanupCursor = () => {
+        window.removeEventListener('mousemove', move);
+        window.removeEventListener('mouseover', over);
+        window.removeEventListener('resize', refresh);
+        document.removeEventListener('mouseleave', leave);
+        document.removeEventListener('mouseenter', enter);
+        cancelAnimationFrame(raf);
+      };
+    }
+  }
+
+  componentWillUnmount() {
+    clearInterval(this._ticker);
+    if (this._io) this._io.disconnect();
+    if (this._revealCleanup) this._revealCleanup();
+    if (this._cleanupCursor) this._cleanupCursor();
+  }
+
+  onSubmit = (e) => {
+    e.preventDefault();
+    const f = e.target;
+    const get = (n) => (f.elements[n] ? f.elements[n].value : "");
+    const key = this.props.formEndpointKey || "";
+    const to = "Consultants@balanceworkssg.com";
+    const subject = "Website enquiry — " + get("service");
+    const body = "Name: " + get("name") + "\n" + "Email: " + get("email") + "\n" + "Service: " + get("service") + "\n\n" + get("message");
+    if (!key) {
+      window.location.href = "mailto:" + to + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+      this.setState({ status: "Opening your email app — if nothing happens, write to " + to + " directly.", error: false });
+      return;
+    }
+    this.setState({ sending: true, status: "Sending…", error: false });
+    fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({ access_key: key, subject, from_name: "Balance Works website", name: get("name"), email: get("email"), service: get("service"), message: get("message") })
+    })
+      .then((r) => r.json())
+      .then((d) => {
+        if (d && d.success) { f.reset(); this.setState({ sending: false, status: "Thanks — we'll reply within one business day.", error: false }); }
+        else { this.setState({ sending: false, status: "Something went wrong. Please email " + to + ".", error: true }); }
+      })
+      .catch(() => this.setState({ sending: false, status: "Network error. Please email " + to + ".", error: true }));
+  };
+
+  renderVals() {
+    const s = this.state;
+    const raw = [
+      { title: "Accounting Automation", body: "Bank feeds, receipt capture, reconciliation rules and approval flows wired into Xero or QuickBooks so the ledger keeps itself current.", tags: ["Xero", "QuickBooks", "Bank feeds"], flow: [{ t: "Bank & card feeds", d: "imported and matched daily" }, { t: "Receipts captured", d: "OCR read, attached to entries" }, { t: "Rules & approvals", d: "coded automatically, exceptions flagged" }, { t: "Ledger stays current", d: "no month-end catch-up" }] },
+      { title: "Bookkeeping", body: "Monthly bookkeeping, reconciliations, AP/AR and management accounts — delivered on a fixed calendar, not when we get to it.", tags: ["Monthly close", "AP / AR", "Mgmt accounts"], flow: [{ t: "Documents collected", d: "one shared intake, chased for you" }, { t: "Reconciled & posted", d: "bank, AP, AR, accruals" }, { t: "Management accounts", d: "P&L, balance sheet, cash" }, { t: "Delivered on a date", d: "same day every month" }] },
+      { title: "Company Incorporation", body: "Pte Ltd registration with ACRA, constitution, share structure, nominee director and corporate bank account introductions.", tags: ["ACRA", "Pte Ltd", "Bank account"], flow: [{ t: "Name & structure", d: "shares, directors, capital" }, { t: "ACRA filing", d: "submitted, usually within 24 hrs" }, { t: "Constitution & registers", d: "documents issued and stored" }, { t: "Bank account intro", d: "corporate account opened" }] },
+      { title: "Corporate Secretarial", body: "Named company secretary, registers, AGM and annual return filings, resolutions and every statutory deadline tracked for you.", tags: ["Company sec", "Annual return", "Registers"], flow: [{ t: "Deadline calendar", d: "every statutory date tracked" }, { t: "Resolutions drafted", d: "circulated for signature" }, { t: "AGM & annual return", d: "prepared and filed" }, { t: "Registers maintained", d: "always inspection-ready" }] },
+      { title: "Process Automation", body: "The work between the systems: quote-to-invoice, payroll handoffs, claims, onboarding. Mapped, rebuilt and monitored.", tags: ["Workflows", "Integrations", "SOPs"], flow: [{ t: "Map the process", d: "who touches what, and when" }, { t: "Rebuild the handoffs", d: "forms, approvals, notifications" }, { t: "Connect the systems", d: "ledger, CRM, payroll, storage" }, { t: "Monitor & alert", d: "failures surface, not silently pile up" }] },
+      { title: "Dashboarding & BI", body: "One live view of cash, runway, margin and receivables — pulled straight from your ledger instead of a monthly spreadsheet.", tags: ["Cash & runway", "Live data", "Board packs"], flow: [{ t: "Ledger connected", d: "live feed, not a monthly export" }, { t: "Metrics modelled", d: "cash, runway, margin, ageing" }, { t: "Dashboard published", d: "one link, always current" }, { t: "Board pack export", d: "same numbers, print-ready" }] },
+      { title: "AI Agents & Integrations", body: "Document extraction, classification and drafting agents that sit inside your finance workflow, with a human approving the output.", tags: ["Doc extraction", "Classification", "Human-in-loop"], flow: [{ t: "Documents ingested", d: "invoices, statements, contracts" }, { t: "Extracted & classified", d: "fields read, coded, matched" }, { t: "Human approves", d: "nothing posts unreviewed" }, { t: "Written back", d: "straight into the ledger" }] },
+    ];
+    const services = raw.map((r, i) => {
+      const open = s.active === i;
+      return Object.assign({}, r, {
+        no: "0" + (i + 1),
+        mark: open ? "—" : "+",
+        titleColor: open ? "oklch(0.86 0.14 175)" : "#f2f2f0",
+        panelStyle: "overflow:hidden;transition:max-height .55s cubic-bezier(.16,1,.3,1),opacity .45s ease;max-height:" + (open ? "760px" : "0px") + ";opacity:" + (open ? "1" : "0"),
+        enter: () => this.setState({ active: i })
+      });
+    });
+    const rows = [
+      { date: "02 AUG", desc: "Stripe payout · SGD settlement", amt: "12,480.00" },
+      { date: "02 AUG", desc: "AWS Singapore · invoice 8841", amt: "1,905.44" },
+      { date: "01 AUG", desc: "Client retainer · Lim & Co", amt: "3,200.00" },
+      { date: "01 AUG", desc: "CPF contribution · July", amt: "4,617.90" },
+      { date: "31 JUL", desc: "Office rent · Tanjong Pagar", amt: "5,800.00" },
+      { date: "31 JUL", desc: "GST input claim · Q2", amt: "2,143.05" },
+      { date: "30 JUL", desc: "Grab · client meetings", amt: "86.20" }
+    ].map((r, i) => Object.assign({}, r, {
+      style: "display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid #101011;animation:bwLedgerRow 5.4s ease-in-out " + (i * 0.34).toFixed(2) + "s infinite both",
+      tick: "flex:none;width:16px;text-align:center;font-size:12px;color:oklch(0.86 0.14 175);animation:bwTickPop 5.4s ease-in-out " + (i * 0.34).toFixed(2) + "s infinite both"
+    }));
+
+    return {
+      rows,
+      posted: s.posted,
+      unmatched: s.unmatched,
+      year: new Date().getFullYear(),
+      onSubmit: this.onSubmit,
+      submitLabel: s.sending ? "Sending…" : "Send enquiry",
+      statusText: s.status || "We reply within one business day. Your details stay with us.",
+      statusColor: s.status ? (s.error ? "oklch(0.72 0.16 25)" : "oklch(0.86 0.14 175)") : "#7d7d76",
+      services,
+      stats: [
+        { k: "80%", v: "of manual data entry removed in a typical engagement" },
+        { k: "3 days", v: "typical month-end close once the ledger is automated" },
+        { k: "24 hrs", v: "to incorporate a Pte Ltd with ACRA, documents ready" },
+        { k: "1 team", v: "accounting, secretarial and engineering under one roof" }
+      ],
+      plans: [
+        { name: "Starter", price: "S$450", unit: "/ month", featured: false, for: "Newly incorporated companies with light transaction volume.", items: ["Monthly bookkeeping & reconciliation", "Automated bank feeds and receipt capture", "Unaudited financial statements", "GST-ready records", "Email support"], cta: "Start here" },
+        { name: "Growth", price: "S$1,200", unit: "/ month", featured: true, for: "Operating businesses that want the close automated end to end.", items: ["Everything in Starter", "Corporate secretarial & ACRA filings", "One automated workflow built per quarter", "Live cash & margin dashboard", "Monthly review call"], cta: "Most teams pick this" },
+        { name: "Automate", price: "Custom", unit: "scoped", featured: false, for: "Finance teams rebuilding how the work actually runs.", items: ["Everything in Growth", "Full process mapping & rebuild", "AI document and approval agents", "Custom BI and board reporting", "Priority response, named lead"], cta: "Scope a project" }
+      ],
+      quotes: [
+        { no: "01", text: "Placeholder testimonial — replace with a real client quote about the month-end close going from two weeks to a few days.", who: "Client name, Role — Company" },
+        { no: "02", text: "Placeholder testimonial — replace with a real quote about incorporation and getting compliant without chasing paperwork.", who: "Client name, Role — Company" },
+        { no: "03", text: "Placeholder testimonial — replace with a real quote about seeing cash and runway live instead of monthly.", who: "Client name, Role — Company" }
+      ]
+    };
+  }
+}
+</script>
+
+
+</body></html>
